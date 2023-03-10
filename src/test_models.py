@@ -118,14 +118,17 @@ saattrupdan_nbailab_base_ner_scandi.add_pipe(
 )
 model_pairs["saattrupdan/nbailab-base-ner-scandi"] = saattrupdan_nbailab_base_ner_scandi
 
+################### GOTTEN TO HERE ###################
+
 # Adding DaCy models:
 da_dacy_small_trf = dacy.load("da_dacy_small_trf-0.1.0")
 da_dacy_medium_trf = dacy.load("da_dacy_medium_trf-0.1.0")
-da_dacy_large_trf = dacy.load("da_dacy_large_trf-0.1.0")
+# da_dacy_large_trf = dacy.load("da_dacy_large_trf-0.1.0")
 model_pairs["da_dacy_small_trf"] = da_dacy_small_trf
 model_pairs["da_dacy_medium_trf"] = da_dacy_medium_trf
 # model_pairs["da_dacy_large_trf"] = da_dacy_large_trf
 
+################### GOTTEN TO HERE ###################
 
 if not model_perf:
     model_perf = {}
