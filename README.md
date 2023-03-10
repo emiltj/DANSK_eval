@@ -1,10 +1,15 @@
+# First acquire data/dansk.spacy 
+
 # Split DANSK into train/dev/test
 python src/split_dansk.py
 
 # Get descriptive stats on partitions
 python src/descriptive_stats.py
 
-# Get test.spacy into "old annotation format" (only PER, LOC and ORG)
+# Download DANSK
+python src/download_dansk_and_split_by_domain.py
+
+# Get test_domain.spacy into "old annotation format" (only PER, LOC and ORG)
 python src/dansk_test_to_old_annotation_format.py
 
 # Test new DaCy models on test.spacy
@@ -29,5 +34,6 @@ python src/inter_annotators_vs_DANSK_matrix.py
 inter_annotators_vs_DANSK_plots.rmd
 
 # Get interrater reliability stats DANSK vs da_dacy_size_ner_fine_grained (x3)
+SKIIIP:
 python src/inter_model_vs_DANSK_matrix.py
 inter_model_vs_DANSK_plots.rmd
