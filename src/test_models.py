@@ -105,19 +105,8 @@ for name, nlp in models.items():
         print(f"\nAnnotating using: {name} ...")
         performance_scores[f"{name}"] = get_scores(docs, nlp)
 
-with open("output/performance_scores.json") as json_file:
-    data = json.load(json_file)
+save_perf_as_json(performance_scores, "output/performance_scores.json")
 
-if len(data) < len(performance_scores):
-    save_perf_as_json(performance_scores, "output/performance_scores.json")
-
-with open("output/performance_scores.json") as json_file:
-    data = json.load(json_file)
-for name, scores in data.items():
+for name, scores in performance_scores.items():
     print(name)
     print(scores["ents_f"])
-
-
-# i. Scandiner (SOTA)
-# ii. DaCy (SOTA for Robustness)
-# iii. spaCy sm, md, lg (mest brugte, men ikke trf fordi trf'en er den samme som DaCy trf, bare anden fine-tuning)

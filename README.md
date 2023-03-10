@@ -12,13 +12,13 @@ python src/dansk_test_to_old_annotation_format.py
         - Domains (across ents)
         - Ent_types (across domains)
         - Domains + Ents (all combinations)
-python src/test_models.py
+python src/test_fine_grained_models.py
 
 # Test other models on test.spacy
     - F1-score, recall, precision within:
         - Domains (across ents)
         - Ent_types (across domains)
-python src/test_other_models.py
+python src/test_models.py
 
 # Get interrater reliability stats within annotators
 python src/inter_annotators_matrix.py
