@@ -30,8 +30,11 @@ def retrieve_doc_texts(docs):
     return [d.text for d in docs]
 
 
-def clean_doc_texts(doc_texts):
-    return [text.replace("\n", "") for text in doc_texts]
+# def clean_doc_texts(doc_texts):
+#     return [
+#         text.replace("\n", "").replace("‘", "'").replace("’", "'").replace("”", '"')
+#         for text in doc_texts
+#     ]
 
 
 # Removes "MISC" annotations and changes "PER" to "PERSON", etc.
@@ -60,14 +63,19 @@ def docs_to_new_format(docs):
 
 def get_scores(gold, nlp):
     doc_texts = retrieve_doc_texts(gold)
-    doc_texts = clean_doc_texts(doc_texts)
+    # doc_texts = clean_doc_texts(doc_texts)
     doc_preds = []
-    for doc in doc_texts:
-        print(doc)
-        doc_preds.append(nlp(doc))
+    bad_texts_indices = []
+    for i, doc in enumerate(doc_texts):
+        try:
+            doc_preds.append(nlp(doc))
+        except:
+            bad_texts_indices.append(i)
 
-    # doc_preds = [nlp(text) for text in doc_texts]
     doc_preds_new_format = docs_to_new_format(doc_preds)
+    bad_texts_indices.sort(reverse=True)
+    for i in bad_texts_indices:
+        gold.pop(i)
 
     examples = [
         Example(predicted=doc_preds_new_format[i], reference=gold[i])
@@ -104,33 +112,37 @@ domain_data = [
 ]
 domain_pairs = dict(zip(domain_names, domain_data))
 
-
 # Adding spacy models to model_pairs
 spacy_models = define_spacy_models()
 model_names = ["da_core_news_sm", "da_core_news_md", "da_core_news_lg"]
 model_pairs = dict(zip(model_names, spacy_models))
 
 # Adding saattrupdan/nbailab-base-ner-scandi to model_pairs
-saattrupdan_nbailab_base_ner_scandi = nlp = spacy.blank("da")
-config = {"model": {"name": "saattrupdan/nbailab-base-ner-scandi"}}
-saattrupdan_nbailab_base_ner_scandi.add_pipe(
-    "token_classification_transformer", config=config
-)
-model_pairs["saattrupdan/nbailab-base-ner-scandi"] = saattrupdan_nbailab_base_ner_scandi
+# saattrupdan_nbailab_base_ner_scandi = nlp = spacy.blank("da")
+# config = {"model": {"name": "saattrupdan/nbailab-base-ner-scandi"}}
+# saattrupdan_nbailab_base_ner_scandi.add_pipe(
+#     "token_classification_transformer", config=config
+# )
+# model_pairs["saattrupdan/nbailab-base-ner-scandi"] = saattrupdan_nbailab_base_ner_scandi
 
 ################### GOTTEN TO HERE ###################
 
-# Adding DaCy models:
-da_dacy_small_trf = dacy.load("da_dacy_small_trf-0.1.0")
-da_dacy_medium_trf = dacy.load("da_dacy_medium_trf-0.1.0")
+# # Adding DaCy models:
+# da_dacy_small_trf = dacy.load("da_dacy_small_trf-0.1.0")
+# model_pairs["da_dacy_small_trf"] = da_dacy_small_trf
+
+# da_dacy_medium_trf = dacy.load("da_dacy_medium_trf-0.1.0")
+# model_pairs["da_dacy_medium_trf"] = da_dacy_medium_trf
+
+# da_dacy_large_trf = spacy.load("da_dacy_large_trf")
 # da_dacy_large_trf = dacy.load("da_dacy_large_trf-0.1.0")
-model_pairs["da_dacy_small_trf"] = da_dacy_small_trf
-model_pairs["da_dacy_medium_trf"] = da_dacy_medium_trf
 # model_pairs["da_dacy_large_trf"] = da_dacy_large_trf
 
 ################### GOTTEN TO HERE ###################
 
-if not model_perf:
+try:
+    model_perf
+except:
     model_perf = {}
 
 for model_name, model in model_pairs.items():
@@ -144,8 +156,8 @@ for model_name, model in model_pairs.items():
             else:
                 model_perf[model_name] = {domain_name: scores}
 
-model_perf
-
+for i in model_perf.keys():
+    print(i)
 
 # da_dacy_small_ner_fine_grained = nlp = spacy.blank("da")
 # config = {"model": {"name": "emiltj/da_dacy_small_ner_fine_grained"}}
@@ -153,4 +165,4 @@ model_perf
 #     "token_classification_transformer", config=config
 # )
 
-# save_perf_as_json(model_perf, "output/performance_scores_old_format.json")
+save_perf_as_json(model_perf, "output/performance_scores_old_format.json")
