@@ -36,32 +36,33 @@ def main():
     # If the dataset is gated/private, make sure you have run huggingface-cli login
     datasets = load_dataset("chcaa/DANSK")
 
-    # For full test dataset:
-    docs_dataset = dataset_to_doc(datasets["test"], nlp)
-    db = DocBin()
-    outpath = "data/test_all_domains.spacy"
-    for doc in docs_dataset:
-        db.add(doc)
-    db.to_disk(outpath)
-    print(f"\n{outpath} has been created.")
-
-    # For test_domains datasets:
-    domain_datasets = split_dataset(datasets["test"], domains)
-    domains = set(domain_datasets.keys())
-    domain_docs = {}
-    for domain in domains:
-        docs_dataset = dataset_to_doc(domain_datasets[f"{domain}"], nlp)
-        domain_docs[f"{domain}"] = docs_dataset
-
-    # Convert to DocBins and save to disk
-    for domain in domains:
+    for partition in ["train", "dev", "test"]:
+        # For full {partition} dataset:
+        docs_dataset = dataset_to_doc(datasets[partition], nlp)
         db = DocBin()
-        domain_outpath_name = domain.replace(" ", "_").lower().replace("&", "and")
-        outpath = f"data/test_{domain_outpath_name}.spacy"
-        for doc in domain_docs[f"{domain}"]:
+        outpath = f"data/{partition}_all_domains.spacy"
+        for doc in docs_dataset:
             db.add(doc)
         db.to_disk(outpath)
         print(f"\n{outpath} has been created.")
+
+        # For {partition}_domains datasets:
+        domain_datasets = split_dataset(datasets[partition], domains)
+        domains = set(domain_datasets.keys())
+        domain_docs = {}
+        for domain in domains:
+            docs_dataset = dataset_to_doc(domain_datasets[f"{domain}"], nlp)
+            domain_docs[f"{domain}"] = docs_dataset
+
+        # Convert to DocBins and save to disk
+        for domain in domains:
+            db = DocBin()
+            domain_outpath_name = domain.replace(" ", "_").lower().replace("&", "and")
+            outpath = f"data/{partition}_{domain_outpath_name}.spacy"
+            for doc in domain_docs[f"{domain}"]:
+                db.add(doc)
+            db.to_disk(outpath)
+            print(f"\n{outpath} has been created.")
 
 
 if __name__ == "__main__":
