@@ -33,7 +33,7 @@ def tag_counts(docs):
     return n_docs, n_ents, dict(sorted(count_of_ents.items()))
 
 
-def convert_output_to_csv(tag_counts_domains, n_docs_domains, n_ents_domains, outpath):
+def convert_output_to_csv(tag_counts_domains, n_docs_domains, n_ents_domains):
     df = pd.DataFrame(tag_counts_domains)
     df["Domain"] = domains
     df["DOCS"] = n_docs_domains
@@ -46,6 +46,10 @@ def convert_output_to_csv(tag_counts_domains, n_docs_domains, n_ents_domains, ou
     type_dict = {f"{c}": "int" for c in df.columns[1:]}
     df = df.astype(type_dict, errors="ignore")
     df = df.replace(1000000, "N/A")
+    return df
+
+
+def save_df_as_csv(df, outpath):
     df.to_csv(outpath, sep=",")
     print(f'Saved "{outpath}" succesfully')
 
@@ -76,13 +80,35 @@ for p in ["train", "dev", "test"]:
 
     outpath = f"output/tables_generator_tables/{p}_domain_desc_stats.csv"
 
-    convert_output_to_csv(
+    df = convert_output_to_csv(
         tag_counts_domains,
         n_docs_domains,
         n_ents_domains,
-        f"output/tables_generator_tables/{p}_domain_desc_stats.csv",
     )
 
+    save_df_as_csv(df, outpath)
+
+
+n_docs_domains = []
+n_ents_domains = []
+tag_counts_domains = []
+for domain in domains:
+    docs = load_dansk(f"train_{domain}")
+    docs.extend(load_dansk(f"dev_{domain}"))
+    docs.extend(load_dansk(f"test_{domain}"))
+    n_docs, n_ents, tag_countss = tag_counts(docs)
+    n_docs_domains.append(n_docs)
+    n_ents_domains.append(n_ents)
+    tag_counts_domains.append(tag_countss)
+
+outpath = "output/tables_generator_tables/full_domain_desc_stats.csv"
+df = convert_output_to_csv(
+    tag_counts_domains,
+    n_docs_domains,
+    n_ents_domains,
+)
+
+save_df_as_csv(df, outpath)
 
 # if __name__ == "__main__":
 #     partitions = ["train", "dev", "test"]
