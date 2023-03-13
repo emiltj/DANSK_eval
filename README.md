@@ -4,10 +4,13 @@
 python src/split_dansk.py
 
 # Get descriptive stats on partitions
-python src/descriptive_stats.py
+python src/descriptive_stats_partitions.py
 
 # Download DANSK
 python src/download_dansk_and_split_by_domain.py
+
+# Get descriptive stats on domains within partitions
+python src/descriptive_stats_domains.py
 
 # Get test_domain.spacy into "old annotation format" (only PER, LOC and ORG)
 python src/dansk_test_to_old_annotation_format.py
