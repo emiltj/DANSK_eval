@@ -1,5 +1,7 @@
 import spacy
 from spacy.tokens import DocBin
+import pandas as pd
+import numpy as np
 import random
 
 
@@ -31,11 +33,62 @@ def tag_counts(docs):
     return n_docs, n_ents, dict(sorted(count_of_ents.items()))
 
 
-if __name__ == "__main__":
-    partitions = ["train", "dev", "test"]
-    for p in partitions:
-        docs = load_dansk(p)
-        n_docs, n_ents, partition_tag_counts = tag_counts(docs)
-        print(n_docs)
-        print(n_ents)
-        print(partition_tag_counts)
+def convert_output_to_csv(tag_counts_domains, n_docs_domains, n_ents_domains, outpath):
+    df = pd.DataFrame(tag_counts_domains)
+    df["Domain"] = domains
+    df["DOCS"] = n_docs_domains
+    df["ENTS"] = n_ents_domains
+    for _ in range(3):
+        cols = df.columns.tolist()
+        cols = cols[-1:] + cols[:-1]
+        df = df[cols]
+    df = df.fillna(1000000)
+    type_dict = {f"{c}": "int" for c in df.columns[1:]}
+    df = df.astype(type_dict, errors="ignore")
+    df = df.replace(1000000, "N/A")
+    df.to_csv(outpath, sep=",")
+    print(f'Saved "{outpath}" succesfully')
+
+
+domains = [
+    "Web",
+    "News",
+    "Wiki & Books",
+    "Legal",
+    "dannet",
+    "Conversation",
+    "Social Media",
+    "All Domains",
+]
+domains = [domain.lower().replace(" ", "_").replace("&", "and") for domain in domains]
+
+for p in ["train", "dev", "test"]:
+
+    n_docs_domains = []
+    n_ents_domains = []
+    tag_counts_domains = []
+    for domain in domains:
+        docs = load_dansk(f"{p}_{domain}")
+        n_docs, n_ents, tag_countss = tag_counts(docs)
+        n_docs_domains.append(n_docs)
+        n_ents_domains.append(n_ents)
+        tag_counts_domains.append(tag_countss)
+
+    outpath = f"output/tables_generator_tables/{p}_domain_desc_stats.csv"
+
+    convert_output_to_csv(
+        tag_counts_domains,
+        n_docs_domains,
+        n_ents_domains,
+        f"output/tables_generator_tables/{p}_domain_desc_stats.csv",
+    )
+
+
+# if __name__ == "__main__":
+#     partitions = ["train", "dev", "test"]
+#     for p in partitions:
+#         docs = load_dansk(p)
+#         n_docs, n_ents, partition_tag_counts = tag_counts(docs)
+#         print(n_docs)
+#         print(n_ents)
+#         print(partition_tag_counts)
