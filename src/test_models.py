@@ -1130,6 +1130,12 @@ model_perf = {
 
 import pandas as pd
 
+
+def save_df_as_csv(df, outpath):
+    df.to_csv(outpath, sep=",")
+    print(f'Saved "{outpath}" succesfully')
+
+
 # Get F1-scores for each model for each domain
 df = pd.DataFrame.from_records(
     [
@@ -1154,6 +1160,8 @@ domain_f1.rename(columns={"all_domains": "across_domains"}, inplace=True).sort_v
     by=["Model"]
 )
 domain_f1
+
+save_df_as_csv(domain_f1, "output/tables_generator_tables/other_models_domain_f1")
 
 # Get F1-scores for each model for each tags (across domains)
 df = pd.DataFrame.from_records(
@@ -1181,3 +1189,6 @@ tag_f1_wide = pd.pivot(
 )
 tag_f1
 tag_f1_wide
+
+save_df_as_csv(tag_f1_wide, "output/tables_generator_tables/other_models_tag_f1_wide")
+save_df_as_csv(tag_f1, "output/tables_generator_tables/other_models_tag_f1")

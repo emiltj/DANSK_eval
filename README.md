@@ -15,13 +15,11 @@ python src/descriptive_stats_domains.py
 # Get test_domain.spacy into "old annotation format" (only PER, LOC and ORG)
 python src/dansk_test_to_old_annotation_format.py
 
-################### GOTTEN TO HERE ################### 
 # Test other models on test.spacy
     - F1-score, recall, precision within:
         - Domains (across ents)
         - Ent_types (across domains)
 python src/test_models.py 
-################### GOTTEN TO HERE ################### 
 
 # Test new DaCy models on test.spacy
 - F1-score, recall, precision within:
@@ -30,10 +28,12 @@ python src/test_models.py
         - Domains + Ents (all combinations)
 python src/test_fine_grained_models.py
 
+################### GOTTEN TO HERE ################### 
 # Get interrater reliability stats within annotators
 python src/inter_annotators_matrix.py
 inter_annotators_plots.rmd
 
+################### GOTTEN TO HERE ################### 
 # Get interrater reliability stats DANSK vs. annotators
 python src/inter_annotators_vs_DANSK_matrix.py
 inter_annotators_vs_DANSK_plots.rmd
