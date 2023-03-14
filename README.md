@@ -32,11 +32,14 @@ python src/test_fine_grained_models.py
 # Get interrater reliability stats within annotators
 python src/inter_annotators_matrix.py
 inter_annotators_plots.rmd
-
 ################### GOTTEN TO HERE ################### 
+
 # Get interrater reliability stats DANSK vs. annotators
 python src/inter_annotators_vs_DANSK_matrix.py
 inter_annotators_vs_DANSK_plots.rmd
+
+# Generate plots from data
+src/plots_ggpot.Rmd
 
 ################### SKIP ################### 
 # Get interrater reliability stats DANSK vs da_dacy_size_ner_fine_grained (x3)

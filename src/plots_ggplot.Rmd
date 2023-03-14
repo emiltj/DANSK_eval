@@ -1,0 +1,107 @@
+---
+title: "plots_thesis"
+output: html_document
+date: "2023-03-14"
+---
+
+
+```{r}
+library('pacman')
+p_load(ggplot2, tidyverse, corrr)
+```
+
+
+Plot: AVERAGE STRICT F1-SCORE BY TAG AND RATER
+```{r}
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/interrater/including_dansk/AVERAGE_STRICT_F1_SCORE_BY_TAG_AND_RATER_COLSRATER_ROWS_TAGS.csv", header=F)
+
+mt = data.matrix(df, rownames.force = NA)
+mt
+dim(mt)
+
+colnamess <- list("1", "3", "4", "5", "6", "7", "8", "9", "gold")
+rownamess <- list('CARDINAL', 'DATE', 'EVENT', 'FACILITY', 'GPE', 'LANGUAGE', 'LAW', 'LOCATION', 'MONEY', 'NORP', 'ORDINAL', 'ORGANIZATION', 'PERCENT', 'PERSON', 'PRODUCT', 'QUANTITY', 'TIME', 'WORK OF ART')
+length(rownames)
+rownames(mt) <- rownamess
+colnames(mt) <- colnamess
+
+mt %>% 
+  as.data.frame() %>%
+  rownames_to_column("TAGS") %>%
+  pivot_longer(-c(TAGS), names_to = "RATER", values_to = "SCORE")
+
+mt %>% 
+  as.data.frame() %>%
+  rownames_to_column("TAGS") %>%
+  pivot_longer(-c(TAGS), names_to = "RATER", values_to = "SCORE") %>%
+  ggplot(aes(x=RATER, y=TAGS)) +
+  geom_tile(aes(fill = SCORE)) +
+  geom_text(aes(label = SCORE)) +
+  scale_fill_gradient(low = "white", high = "red", name = "F1-score") +
+  theme_minimal() +
+  ggtitle("Average strict F1-score by tag and rater") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+Plot: NER_kappa_annotated_only_if_1_annotated_span_mean_0.539_sd_0.117
+```{r}
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/interrater/including_dansk/NER_kappa_annotated_only_if_1_annotated_span_mean_0.539_sd_0.117.csv", header=T, row.names = 1)
+rater_avg = df[,"rater_avg"]
+rownames(df) <- NULL
+
+rownames(df) <- list(1, 3, 4, 5, 6, 7, 8, 9, 'gold')
+colnames(df) <- list(1, 3, 4, 5, 6, 7, 8, 9, 'gold', 'rater_avg')
+
+#df[upper.tri(df, diag=FALSE)] <- NA
+
+df = df %>% 
+  as.data.frame() %>%
+  rownames_to_column("RATER") %>%
+  pivot_longer(-c(RATER), names_to = "TAGS", values_to = "SCORE")# %>%
+
+df
+
+ggplot(df, aes(RATER, TAGS, fill = SCORE)) +
+  geom_tile() +
+  geom_text(aes(label = SCORE,
+                color = abs(SCORE) < .75)) +
+  coord_fixed(expand = FALSE) +
+  scale_color_manual(values = c("white", "black"),
+                     guide = "none") +
+  scale_fill_distiller(palette = "PuOr",
+                       na.value = "white",
+                       direction = 1,
+                       limits = c(-1, 1),
+                       name = "Kappa") +
+  labs(x = NULL, 
+       y = NULL) +
+  theme_minimal() +
+  ggtitle("Kappa scores between annotators and GOLD dataset") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+Plot: NER_F1TAG_STRICT.csv
+```{r}
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/interrater/including_dansk/NER_F1TAG_STRICT.csv", header=T, row.names = 1)
+
+# Set tag as column instead of index
+df <- cbind(Tag = rownames(df), df)
+rownames(df) <- 1:nrow(df)
+
+# Remove NA
+df = head(df,-1)
+
+ggplot(df,aes(Tag,mean))+geom_bar(stat="identity",fill="skyblue", alpha=0.5) +
+  xlab("Tag") +
+  ylab("Mean F1-score") +
+  ggtitle("F1-score for strict match") +
+  #theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+
+```{r}
+```
