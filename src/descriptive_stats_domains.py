@@ -7,7 +7,11 @@ import random
 
 def load_dansk(partition):
     nlp = spacy.blank("da")
-    return list(DocBin().from_disk(f"data/{partition}.spacy").get_docs(nlp.vocab))
+    return list(
+        DocBin()
+        .from_disk(f"data/DANSK_split_by_domain/{partition}.spacy")
+        .get_docs(nlp.vocab)
+    )
 
 
 def tag_counts(docs):
@@ -72,13 +76,13 @@ for p in ["train", "dev", "test"]:
     n_ents_domains = []
     tag_counts_domains = []
     for domain in domains:
-        docs = load_dansk(f"{p}_{domain}")
+        docs = load_dansk(f"{p}/{domain}")
         n_docs, n_ents, tag_countss = tag_counts(docs)
         n_docs_domains.append(n_docs)
         n_ents_domains.append(n_ents)
         tag_counts_domains.append(tag_countss)
 
-    outpath = f"output/tables_generator_tables/{p}_domain_desc_stats.csv"
+    outpath = f"output/DANSK_descriptive/{p}/domain_desc_stats.csv"
 
     df = convert_output_to_csv(
         tag_counts_domains,
@@ -93,15 +97,15 @@ n_docs_domains = []
 n_ents_domains = []
 tag_counts_domains = []
 for domain in domains:
-    docs = load_dansk(f"train_{domain}")
-    docs.extend(load_dansk(f"dev_{domain}"))
-    docs.extend(load_dansk(f"test_{domain}"))
+    docs = load_dansk(f"train/{domain}")
+    docs.extend(load_dansk(f"dev/{domain}"))
+    docs.extend(load_dansk(f"test/{domain}"))
     n_docs, n_ents, tag_countss = tag_counts(docs)
     n_docs_domains.append(n_docs)
     n_ents_domains.append(n_ents)
     tag_counts_domains.append(tag_countss)
 
-outpath = "output/tables_generator_tables/full_domain_desc_stats.csv"
+outpath = "output/DANSK_descriptive/full/domain_desc_stats.csv"
 df = convert_output_to_csv(
     tag_counts_domains,
     n_docs_domains,

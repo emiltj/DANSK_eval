@@ -1,4 +1,5 @@
 import spacy, json
+import pandas as pd
 from spacy.tokens import DocBin
 from spacy.training import Example
 from spacy.scorer import Scorer
@@ -42,6 +43,11 @@ def save_perf_as_json(performance_scores, outpath):
         f.write(json_performance_scores)
 
 
+def save_df_as_csv(df, outpath):
+    df.to_csv(outpath, sep=",")
+    print(f'Saved "{outpath}" succesfully')
+
+
 nlp_ner_small = spacy.load("da_dacy_small_ner_fine_grained")
 nlp_ner_medium = spacy.load("da_dacy_medium_ner_fine_grained")
 nlp_ner_large = spacy.load("da_dacy_large_ner_fine_grained")
@@ -60,7 +66,10 @@ domain_names = [
     domain.lower().replace(" ", "_").replace("&", "and") for domain in domain_names
 ]
 
-domain_data = [load_dansk(f"test_{domain_name}") for domain_name in domain_names]
+domain_data = [
+    load_dansk(f"DANSK_split_by_domain/test/{domain_name}")
+    for domain_name in domain_names
+]
 domain_pairs = dict(zip(domain_names, domain_data))
 
 dacy_models = [nlp_ner_small, nlp_ner_medium, nlp_ner_large]
@@ -70,7 +79,6 @@ model_names = [
     "da_dacy_large_ner_fine_grained",
 ]
 model_pairs = dict(zip(model_names, dacy_models))
-
 
 try:
     model_perf
@@ -89,16 +97,7 @@ for model_name, model in model_pairs.items():
             else:
                 model_perf[model_name] = {domain_name: scores}
 
-model_perf
-
-save_perf_as_json(model_perf, "output/performance_scores_new_format_new_models.json")
-
-import pandas as pd
-
-
-def save_df_as_csv(df, outpath):
-    df.to_csv(outpath, sep=",")
-    print(f'Saved "{outpath}" succesfully')
+save_perf_as_json(model_perf, "output/ner_models_performance/new_format_all_stats.json")
 
 
 # Get F1-scores for each model for each domain
@@ -116,7 +115,6 @@ df_no_individual_tags = df[pd.to_numeric(df["Score"], errors="coerce").notnull()
 df_f1_no_individual_tags = df_no_individual_tags[
     df_no_individual_tags["Metric"] == "ents_f"
 ]
-df_f1_no_individual_tags
 
 domain_f1 = pd.pivot(
     df_f1_no_individual_tags,
@@ -125,13 +123,9 @@ domain_f1 = pd.pivot(
     values="Score",
 )
 
-domain_f1
 domain_f1.rename(columns={"all_domains": "across_domains"}, inplace=True)
-domain_f1
 
-save_df_as_csv(
-    domain_f1, "output/tables_generator_tables/fine_grained_models_domain_f1"
-)
+save_df_as_csv(domain_f1, "output/ner_models_performance/domain_f1.csv")
 
 # Get F1-scores for each model for each tags (across domains)
 df = pd.DataFrame.from_records(
@@ -157,10 +151,6 @@ tag_f1_wide = pd.pivot(
     columns="Tag",
     values="F1-score",
 )
-tag_f1
-tag_f1_wide
 
-save_df_as_csv(
-    tag_f1_wide, "output/tables_generator_tables/fine_grained_models_tag_f1_wide"
-)
-save_df_as_csv(tag_f1, "output/tables_generator_tables/fine_grained_models_tag_f1")
+save_df_as_csv(tag_f1_wide, "output/ner_models_performance/tag_f1_wide.csv")
+save_df_as_csv(tag_f1, "output/ner_models_performance/tag_f1.csv")

@@ -5,7 +5,7 @@ import random
 
 def load_dansk(partition):
     nlp = spacy.blank("da")
-    return list(DocBin().from_disk(f"data/{partition}.spacy").get_docs(nlp.vocab))
+    return list(DocBin().from_disk(f"data/DANSK/{partition}.spacy").get_docs(nlp.vocab))
 
 
 def tag_counts(docs):

@@ -42,10 +42,10 @@ if __name__ == "__main__":
     ]
     domains
     for domain in domains:
-        test = load_dansk(f"test_{domain}")
+        test = load_dansk(f"DANSK_split_by_domain/test/{domain}")
         test_old_format = docs_to_old_annotation_format(test)
         db = DocBin()
         for doc in test_old_format:
             db.add(doc)
-        db.to_disk(f"data/test_{domain}_old_format.spacy")
-        print(f"data/test_{domain}_old_format.spacy created.\n")
+        db.to_disk(f"data/DANSK_split_by_domain/test/{domain}_old_format.spacy")
+        print(f"data/DANSK_split_by_domain/test/{domain}_old_format.spacy created.\n")
