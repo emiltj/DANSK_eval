@@ -160,7 +160,6 @@ saattrupdan_nbailab_base_ner_scandi = dacy.load(
     "da_dacy_small_trf-0.1.0", exclude=["ner"]
 )
 saattrupdan_nbailab_base_ner_scandi.add_pipe("dacy/ner")
-
 model_pairs["saattrupdan/nbailab-base-ner-scandi"] = saattrupdan_nbailab_base_ner_scandi
 
 
@@ -192,11 +191,13 @@ for model_name, model in model_pairs.items():
                 model_perf[model_name] = {domain_name: scores}
 
 
-save_perf_as_json(
-    model_perf, "output/other_models_performance/old_format_all_stats.json"
-)
+# Save performance
+with open("output/other_models_performance/old_format_all_stats.json", "w") as fp:
+    json.dump(model_perf, fp)
 
-data = json.loads("output/other_models_performance/old_format_all_stats.json")
+# Open performance
+with open("output/other_models_performance/old_format_all_stats.json", "r") as j:
+    data = json.loads(j.read())
 
 
 # Get F1-scores for each model for each domain
@@ -221,9 +222,37 @@ domain_f1 = pd.pivot(
 )
 
 domain_f1.rename(columns={"all_domains": "across_domains"}, inplace=True)
-domain_f1.sort_values(by=["Model"])
+domain_f1 = domain_f1.sort_values(by=["Model"])
+domain_f1 = domain_f1.reset_index()
+domain_f1 = domain_f1.rename_axis(None, axis=1)
+domain_f1 = domain_f1.set_index("Model")
+domain_f1 = domain_f1.drop(["Metric"], axis=1)
+domain_f1_transposed = domain_f1.T
 
-save_df_as_csv(domain_f1, "output/other_models_performance/domain_f1.csv")
+reorder_list = [
+    "da_dacy_large_ner_fine_grained",
+    "da_dacy_medium_ner_fine_grained",
+    "da_dacy_small_ner_fine_grained",
+    "da_dacy_large_trf",
+    "da_dacy_medium_trf",
+    "da_dacy_small_trf",
+    "da_core_news_lg",
+    "da_core_news_md",
+    "da_core_news_sm",
+    "saattrupdan/nbailab-base-ner-scandi",
+]
+reorder_list_index = [3, 5, 7, 4, 6, 8, 0, 1, 2, 8]
+
+domain_f1_transposed = domain_f1_transposed[
+    domain_f1_transposed.columns[reorder_list_index]
+]
+domain_f1 = domain_f1.reindex(reorder_list)
+
+save_df_as_csv(domain_f1, "output/other_models_performance/domain_f1_long.csv")
+save_df_as_csv(
+    domain_f1_transposed, "output/other_models_performance/domain_f1_wide.csv"
+)
+
 
 # Get F1-scores for each model for each tags (across domains)
 df = pd.DataFrame.from_records(
@@ -249,6 +278,25 @@ tag_f1_wide = pd.pivot(
     columns="Tag",
     values="F1-score",
 )
+
+reorder_list = [
+    "da_dacy_large_ner_fine_grained",
+    "da_dacy_medium_ner_fine_grained",
+    "da_dacy_small_ner_fine_grained",
+    "da_dacy_large_trf",
+    "da_dacy_medium_trf",
+    "da_dacy_small_trf",
+    "da_core_news_lg",
+    "da_core_news_md",
+    "da_core_news_sm",
+    "saattrupdan/nbailab-base-ner-scandi",
+]
+reorder_list_index = [3, 5, 7, 4, 6, 8, 0, 1, 2, 8]
+
+tag_f1_wide = tag_f1_wide.reset_index()
+tag_f1_wide = tag_f1_wide.set_index("Model")
+tag_f1_wide = tag_f1_wide.reindex(reorder_list)
+tag_f1_wide = tag_f1_wide[["LOCATION", "ORGANIZATION", "PERSON"]]
 
 save_df_as_csv(tag_f1_wide, "output/other_models_performance/tag_f1_wide.csv")
 save_df_as_csv(tag_f1, "output/other_models_performance/tag_f1_long.csv")

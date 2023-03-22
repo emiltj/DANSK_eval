@@ -10,6 +10,43 @@ library('pacman')
 p_load(ggplot2, tidyverse, corrr)
 ```
 
+List of plots to make:
+
+Heatmaps:
+- output/DANSK_initial_interrater/kappa_also_non_annotated.csv
+- output/DANSK_initial_interrater/kappa_annotated.csv
+- output/DANSK_final_interrater/conf_matrix.csv
+- output/ner_models_performance/small_confusion_matrix.csv
+- output/ner_models_performance/medium_confusion_matrix.csv
+- output/ner_models_performance/large_confusion_matrix.csv
+
+
+Barplots:
+- output/ner_models_performance/domain_f1_long.csv
+  - Y-axis F1-score, X-axis each model, grouped by each domain
+  
+- output/other_models_performance/domain_f1_long.csv
+  - Y-axis F1-score, X-axis each model, grouped by each domain
+
+- output/other_models_performance/tag_f1_score.csv # MAYBE OTHER NAME OF CSV?
+  - Y-Axis F1-score, X-axis each model grouped by tag
+  
+- output/ner_models_performance/tag_f1_score.csv # MAYBE OTHER NAME OF CSV?
+  - Y-Axis F1-score, X-axis each model grouped by tag
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Plot: AVERAGE STRICT F1-SCORE BY TAG AND RATER
 ```{r}

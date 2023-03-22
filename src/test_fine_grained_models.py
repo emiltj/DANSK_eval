@@ -122,10 +122,18 @@ domain_f1 = pd.pivot(
     columns="Domain",
     values="Score",
 )
-
 domain_f1.rename(columns={"all_domains": "across_domains"}, inplace=True)
 
-save_df_as_csv(domain_f1, "output/ner_models_performance/domain_f1.csv")
+domain_f1 = domain_f1.reset_index()
+domain_f1 = domain_f1.rename_axis(None, axis=1)
+domain_f1 = domain_f1.set_index("Model")
+domain_f1 = domain_f1.drop(["Metric"], axis=1)
+domain_f1
+domain_f1_transposed = domain_f1.T
+domain_f1_transposed
+save_df_as_csv(domain_f1, "output/ner_models_performance/domain_f1_wide.csv")
+save_df_as_csv(domain_f1_transposed, "output/ner_models_performance/domain_f1_long.csv")
+
 
 # Get F1-scores for each model for each tags (across domains)
 df = pd.DataFrame.from_records(

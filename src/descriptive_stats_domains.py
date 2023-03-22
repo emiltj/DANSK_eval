@@ -69,6 +69,8 @@ domains = [
     "All Domains",
 ]
 domains = [domain.lower().replace(" ", "_").replace("&", "and") for domain in domains]
+import os
+
 
 for p in ["train", "dev", "test"]:
 
@@ -82,15 +84,16 @@ for p in ["train", "dev", "test"]:
         n_ents_domains.append(n_ents)
         tag_counts_domains.append(tag_countss)
 
-    outpath = f"output/DANSK_descriptive/{p}/domain_desc_stats.csv"
-
     df = convert_output_to_csv(
         tag_counts_domains,
         n_docs_domains,
         n_ents_domains,
     )
+    df_wide = df.set_index("Domain")
+    df_wide = df_wide.T
 
-    save_df_as_csv(df, outpath)
+    save_df_as_csv(df, f"output/DANSK_descriptive/{p}/domain_desc_stats.csv")
+    save_df_as_csv(df_wide, f"output/DANSK_descriptive/{p}/domain_desc_stats_wide.csv")
 
 
 n_docs_domains = []
@@ -105,20 +108,15 @@ for domain in domains:
     n_ents_domains.append(n_ents)
     tag_counts_domains.append(tag_countss)
 
-outpath = "output/DANSK_descriptive/full/domain_desc_stats.csv"
+
 df = convert_output_to_csv(
     tag_counts_domains,
     n_docs_domains,
     n_ents_domains,
 )
 
-save_df_as_csv(df, outpath)
+df_wide = df.set_index("Domain")
+df_wide = df_wide.T
 
-# if __name__ == "__main__":
-#     partitions = ["train", "dev", "test"]
-#     for p in partitions:
-#         docs = load_dansk(p)
-#         n_docs, n_ents, partition_tag_counts = tag_counts(docs)
-#         print(n_docs)
-#         print(n_ents)
-#         print(partition_tag_counts)
+save_df_as_csv(df, "output/DANSK_descriptive/full/domain_desc_stats.csv")
+save_df_as_csv(df_wide, "output/DANSK_descriptive/full/domain_desc_stats_wide.csv")
