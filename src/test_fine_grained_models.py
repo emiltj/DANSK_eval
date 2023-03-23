@@ -128,9 +128,8 @@ domain_f1 = domain_f1.reset_index()
 domain_f1 = domain_f1.rename_axis(None, axis=1)
 domain_f1 = domain_f1.set_index("Model")
 domain_f1 = domain_f1.drop(["Metric"], axis=1)
-domain_f1
 domain_f1_transposed = domain_f1.T
-domain_f1_transposed
+
 save_df_as_csv(domain_f1, "output/ner_models_performance/domain_f1_wide.csv")
 save_df_as_csv(domain_f1_transposed, "output/ner_models_performance/domain_f1_long.csv")
 
