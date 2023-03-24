@@ -4,37 +4,22 @@ output: html_document
 date: "2023-03-14"
 ---
 
-
+# LOAD PACKAGES
 ```{r}
-p_load(ggplot2, tidyverse, corrr, devtools)
+library("pacman")
+library("ggplot2")
+install.packages("tidyverse")
+library("tidyverse")
+
+library("pacman")
+library("pacman")
+library("pacman")
+library("pacman", "ggplot2", "tidyverse", "corrr", "RColorBrewer")
+#pacman::p_load(ggplot2, tidyverse, corrr, RColorBrewer)
 ```
 
-List of plots to make:
-
-Heatmaps of confusion matrices:
-1 - output/DANSK_final_interrater/conf_matrix.csv
-2 - output/ner_models_performance/small_confusion_matrix.csv
-3 - output/ner_models_performance/medium_confusion_matrix.csv
-4 - output/ner_models_performance/large_confusion_matrix.csv
-
-Boxplot/violinplots of kappas:
-5 - output/DANSK_initial_interrater/kappa_also_non_annotated.csv
-6 - output/DANSK_initial_interrater/kappa_annotated.csv
-6.5 - output/DANSK_initial_interrater/tag_counts.csv
-
-Barplots within tags and domains:
-7 - output/ner_models_performance/domain_f1_long.csv
-8 - output/other_models_performance/domain_f1_long.csv
-9 - output/other_models_performance/tag_f1_score.csv
-10 - output/ner_models_performance/tag_f1_score.csv
-
-Barplots across domains and tags:
-11 - output/ner_models_performance/domain_f1_long.csv
-12 - output/other_models_performance/domain_f1_long.csv
-
-
-# HEATMAPS
-1 - output/DANSK_final_interrater/conf_matrix.csv
+# CONFUSION MATRICES
+DANSK vs interrater
 ```{r}
 # Load dataset
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_final_interrater/conf_matrix.csv", header=T)
@@ -84,20 +69,19 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
   
   # Labs
-  labs(title = "Confusion matrix",
-       subtitle = "Gold annotations and initial annotations across annotators",
-       x = "Accumulate annotators annotations", 
-       y = "DANSK gold annotations") +
+  labs(title = "DANSK and initial annotations",
+       subtitle = "Confusion matrix with DANSK gold annotations and initial annotations",
+       x = "Accumulate annotations of initial annotators", 
+       y = "DANSK gold") #+
   
   # Theme and positioning
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5))
+  # theme(plot.title = element_text(hjust = 0.5), 
+  #       plot.subtitle = element_text(hjust = 0.5))
 
 # Save plot
 ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_final_interrater/conf_matrix_plot.png")
 ```
-
-2 - output/ner_models_performance/small_confusion_matrix.csv
+Small
 ```{r}
 # Load dataset
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/small_confusion_matrix.csv", header=T)
@@ -147,21 +131,20 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
   
   # Labs
-  labs(title = "Confusion matrix - small",
-       subtitle = "Prediction errors of da_dacy_small_ner_fine_grained",
+  labs(title = "Prediction errors - small model",
+       subtitle = "Confusion matrix of da_dacy_small_ner_fine_grained",
        x = "da_dacy_small_ner_fine_grained", 
-       y = "DANSK gold annotations") +
+       y = "DANSK gold") #+
   
   # Theme and positioning
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5))
-append(plots, plot)
+  # theme(plot.title = element_text(hjust = 0.5), 
+  #       plot.subtitle = element_text(hjust = 0.5))
+
 
 # Save plot
 ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/small_confusion_matrix_plot.png")
 ```
-
-3 - output/ner_models_performance/medium_confusion_matrix.csv
+Medium
 ```{r}
 # Load dataset
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/medium_confusion_matrix.csv", header=T)
@@ -211,21 +194,20 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
   
   # Labs
-  labs(title = "Confusion matrix - medium",
-       subtitle = "Prediction errors of da_dacy_medium_ner_fine_grained",
+  labs(title = "Prediction errors - medium model",
+       subtitle = "Confusion matrix of da_dacy_medium_ner_fine_grained",
        x = "da_dacy_medium_ner_fine_grained", 
-       y = "DANSK gold annotations") +
+       y = "DANSK gold annotations") #+
   
   # Theme and positioning
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5))
-append(plots, plot)
+  # theme(plot.title = element_text(hjust = 0.5), 
+  #       plot.subtitle = element_text(hjust = 0.5))
+
 
 # Save plot
 ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/medium_confusion_matrix_plot.png")
 ```
-
-4 - output/ner_models_performance/large_confusion_matrix.csv
+Large
 ```{r}
 # Load dataset
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/large_confusion_matrix.csv", header=T)
@@ -275,24 +257,279 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
   
   # Labs
-  labs(title = "Confusion matrix - large",
-       subtitle = "Prediction errors of da_dacy_large_ner_fine_grained",
+  # Labs
+  labs(title = "Prediction errors - large model",
+       subtitle = "Confusion matrix of da_dacy_large_ner_fine_grained",
        x = "da_dacy_large_ner_fine_grained", 
-       y = "DANSK gold annotations") +
+       y = "DANSK gold annotations")# +
   
   # Theme and positioning
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5))
+  # theme(plot.title = element_text(hjust = 0.5), 
+  #       plot.subtitle = element_text(hjust = 0.5))
 
 # Save plot
 ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/large_confusion_matrix_plot.png")
 ```
 
+# NER MODEL PERFORMANCE
+DOMAIN PERFORMANCE
+```{r}
+# Load dataset
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/domain_f1_wide.csv", header=T)
+
+# Set model values as rownames
+df <- df %>% column_to_rownames(., var = 'Model')
+
+# Remove the across domains
+df <- df %>% select(!(name="across_domains"))
+
+# Make into long format
+df_wide <- df %>%
+  rownames_to_column() %>%
+  gather(colname, value, -rowname)
+
+# Order by custom ordering:
+df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained"))
+df_wide$rowname <- fct_rev(df_wide$rowname)
+
+# Plot
+ggplot(df_wide, aes(y=value, x=rowname)) +
+  # Geom_bar
+  geom_point(size = 3.5,
+          aes(color=colname),
+          stat="identity") +
+
+  geom_point(shape=1, size=3.5, colour="black")+
+
+  scale_color_brewer(palette = "Set2") +
+
+  coord_flip() + 
+  
+  # theme_minimal() +
+
+  # Set labs
+  labs(title = "F1-scores across domains",
+       subtitle = "F1-performance of the NER fine-grained models",
+       x = "Model",
+       y = "F1-score",
+       color = 'Domain')
+
+# Save plot
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/domain_f1_wide_plot.png")
+```
+TAG PERFORMANCE
+```{r}
+# Load data
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/tag_f1_wide.csv", header=T)
+
+# Set model values as rownames
+df <- df %>% column_to_rownames(., var = 'Model')
+
+df <- df %>% select(!(name="Domain"))
+
+colnames(df)[length(colnames(df))] <- "WORK OF ART"
+
+# Make into long format
+df_wide <- df %>%
+  rownames_to_column() %>%
+  gather(colname, value, -rowname)
+
+# Order by custom ordering:
+df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained"))
+df_wide$colname <- factor(df_wide$colname)
+df_wide$colname <- fct_rev(df_wide$colname)
+
+# Plot
+ggplot(df_wide, aes(y=value, x=colname)) +
+  # Geom_bar
+  geom_point(size = 3.5,
+          aes(color=colname),
+          stat="identity") +
+
+  geom_point(shape=1, size=3.5, colour="black")+
+
+  #scale_color_brewer() +#palette = "") +
+
+  coord_flip() + 
+  
+  guides(color = guide_legend(reverse=TRUE)) +
+
+  #theme_minimal() +
+
+  # Set labs
+  labs(title = "F1-scores across domains",
+       subtitle = "F1-performance of the NER fine-grained models",
+       x = "Model",
+       y = "F1-score",
+       color = 'Tag') +
+  
+  facet_wrap(~rowname, ncol=3)
+
+# Save plot
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/tag_f1_wide_plot.png")
+```
+
+# OTHER MODELS PERFORMANCE
+GENERAL PERFORMANCE
+```{r}
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/domain_f1_long.csv", header=T)
+
+# Set model values as rownames
+df <- df %>% column_to_rownames(., var = 'Model')
+
+# Remove the across domains
+df <- df %>% select((name="across_domains"))
+
+# Make into long format
+df_wide <- df %>%
+  rownames_to_column() %>%
+  gather(colname, value, -rowname)
+
+# Order by custom ordering:
+df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained", "saattrupdan/nbailab-base-ner-scandi", "da_dacy_large_trf", "da_dacy_medium_trf", "da_dacy_small_trf", "da_core_news_lg", "da_core_news_md","da_core_news_sm"))
+
+# Reverse order
+df_wide$rowname <- fct_rev(df_wide$rowname)
+
+# Plot
+ggplot(df_wide, aes(color=rowname, y=value, x=rowname)) +
+  # Geom_bar
+  geom_point(#position = position_dodge(width = 0.7),
+           #width=0.7,
+          size = 2.5,
+          aes(color=rowname),
+          stat="identity") + #,
+           #colour="black") +
+  
+  # Add text with F1-scores
+  geom_text(aes(label=round(value, 2)), hjust=1.4, color="black", size=3.5) +
+  
+  guides(color = guide_legend(reverse=TRUE)) +
+  
+  geom_point(shape=1, size=2.5, colour="black")+
+
+  #scale_color_brewer(palette = "Set2") +
+
+  coord_flip() + 
+
+  # Set labs
+  labs(title = "F1-scores on DANSK",
+       subtitle = "F1-performance of Danish SOTA models",
+       x = "Model",
+       y = "F1-score",
+       color = 'Model')
+
+# Save plot
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/f1.png")
+```
+DOMAIN MODEL PERFORMANCE
+```{r}
+# Load data
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/domain_f1_long.csv", header=T)
+
+# Set model values as rownames
+df <- df %>% column_to_rownames(., var = 'Model')
+
+# Remove the across domains
+df <- df %>% select(!(name="across_domains"))
+
+# Make into long format
+df_wide <- df %>%
+  rownames_to_column() %>%
+  gather(colname, value, -rowname)
+
+# Order by custom ordering:
+df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained", "saattrupdan/nbailab-base-ner-scandi", "da_dacy_large_trf", "da_dacy_medium_trf", "da_dacy_small_trf", "da_core_news_lg", "da_core_news_md","da_core_news_sm"))
+
+# Reverse order
+df_wide$rowname <- fct_rev(df_wide$rowname)
+
+# Plot
+ggplot(df_wide, aes(color=colname, y=value, x=rowname)) +
+  # Geom_bar
+  geom_point(#position = position_dodge(width = 0.7),
+           #width=0.7,
+          size = 2.5,
+          aes(color=colname),
+          stat="identity") + #,
+           #colour="black") +
+    
+  geom_point(shape=1, size=2.5, colour="black") +
+
+  scale_color_brewer(palette = "Set2") +
+
+  coord_flip() + 
+
+  # Set labs
+  labs(title = "F1-scores across domains",
+       subtitle = "F1-performance of Danish SOTA models",
+       x = "Model",
+       y = "F1-score",
+       color= 'Domain')
+
+# Save plot
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/domain_f1.png")
+```
+TAG MODEL PERFORMANCE
+```{r}
+# Load dataset
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/tag_f1_wide.csv", header=T)
+
+# Set model values as rownames
+df <- df %>% column_to_rownames(., var = 'Model')
+
+# Make into long format
+df_wide <- df %>%
+  rownames_to_column() %>%
+  gather(colname, value, -rowname)
+
+# Factor by right order
+df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained", "saattrupdan/nbailab-base-ner-scandi", "da_dacy_large_trf", "da_dacy_medium_trf", "da_dacy_small_trf", "da_core_news_lg", "da_core_news_md","da_core_news_sm"))
+
+# Reverse order
+df_wide$rowname <- fct_rev(df_wide$rowname)
+
+# Plot 
+ggplot(df_wide, aes(color=colname, y=value, x=rowname)) + 
+  # Geom_bar
+  geom_point(#position = position_dodge(width = .8),
+           #width=.8,
+          size=2.5,
+           stat="identity") +#,
+           # colour="black") +
+  
+  geom_point(shape=1, size=2.5, colour="black")+
+  
+  scale_color_brewer(palette = "Set2") +  
+  
+  coord_flip() +
+  
+  #theme_minimal() +
+  
+  # Set labs
+  labs(title = "F1-scores across tags",
+       subtitle = "F1-performance of Danish SOTA models",
+       x = "Model", 
+       y = "F1-score",
+       color = 'Tag')
+
+# Save plot
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/tag_f1.png")
+```
 
 
 
-# BOXPLOTS/VIOLIN PLOTS For kappa scores
-5 - output/DANSK_initial_interrater/kappa_also_non_annotated.csv
+
+
+
+
+
+
+
+
+
+# OLD, MIGHT NOT USE:
+output/DANSK_initial_interrater/kappa_also_non_annotated.csv 
 ```{r}
 # Load dataset
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_initial_interrater/kappa_also_non_annotated.csv", header=T)
@@ -337,8 +574,7 @@ ggplot(df_wide, aes(x = reorder(rowname, sort(as.numeric(rowname), decreasing=T)
 # Save plot
 ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_initial_interrater/kappa_also_non_annotated_plot.png")
 ```
-
-6 - output/DANSK_initial_interrater/kappa_annotated.csv
+output/DANSK_initial_interrater/kappa_annotated.csv
 ```{r}
 # Load dataset
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_initial_interrater/kappa_annotated.csv", header=T)
@@ -384,8 +620,7 @@ ggplot(df_wide, aes(x = reorder(rowname, sort(as.numeric(rowname), decreasing=T)
 # Save plot
 ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_initial_interrater/kappa_annotated_plot.png")
 ```
-
-6.5 - output/DANSK_initial_interrater/tag_counts.csv
+output/DANSK_initial_interrater/tag_counts.csv SKIP BELOW ON TAG_COUNTS; DATA SHOWS NUMBER OF TOKENS WITH TAGS, INSTEAD OF NUMBER OF TAGS IN DOCUMENTS
 ```{r}
 # Load dataset
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_initial_interrater/tag_counts.csv", header=T)
@@ -427,164 +662,7 @@ ggplot(df_wide, aes(x = rowname, y = value, fill=rowname)) +
        fill='Annotator')
 
 ```
-
-# BARPLOTS for within tag and domain:
-
-7 - output/ner_models_performance/domain_f1_long.csv
-- Y-axis F1-score, X-axis each model, grouped by each domain
-- Y-axis F1-score, X-axis each domain, grouped by each model
-```{r}
-# Load dataset
-df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/domain_f1_wide.csv", header=T)
-
-# Set model values as rownames
-df <- df %>% column_to_rownames(., var = 'Model')
-
-# Remove the across domains
-df <- df %>% select(!(name="across_domains"))
-
-# Make into long format
-df_wide <- df %>%
-  rownames_to_column() %>%
-  gather(colname, value, -rowname)
-
-# Plot 
-ggplot(df_wide, aes(fill=colname, y=value, x=rowname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = 0.7),
-           width=0.7,
-           stat="identity",
-           colour="black") +
-  
-  # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3.5, position = position_dodge(0.7)) +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
-  # Let x-axis dodge to avoid clutter
-  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
-  
-  # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of the fine-grained models",
-       x = "Model", 
-       y = "F1-score",
-       fill = 'Domain')
-
-# Plot
-ggplot(df_wide, aes(fill=rowname, y=value, x=colname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = 0.7),
-           width=0.7,
-           stat="identity",
-           colour="black") +
-  
-    # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3.5, position = position_dodge(0.7)) +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
-  # Let x-axis dodge to avoid clutter
-  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
-  
-  # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of the fine-grained models",
-       x = "Domain", 
-       y = "F1-score",
-       fill = 'Model')
-```
-- Facet-wrap with model
-- Facet-wrap with domain
-```{r}
-# Load data
-df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/domain_f1_wide.csv", header=T)
-
-# Set model values as rownames
-df <- df %>% column_to_rownames(., var = 'Model')
-
-# Remove the across domains
-df <- df %>% select(!(name="across_domains"))
-
-# Make into long format
-df_wide <- df %>%
-  rownames_to_column() %>%
-  gather(colname, value, -rowname)
-
-# As factors
-df_wide$rowname <- as.factor(df_wide$rowname) 
-df_wide$colname <- as.factor(df_wide$colname) 
-
-# Plot 
-ggplot(df_wide, aes(y=value, x=rowname, fill=rowname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = 0.7),
-           width=0.7,
-           stat="identity",
-           #fill="white",
-           colour="black") +
-  
-  # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3.5) +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
-  # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of Danish SOTA models",
-       x = "", 
-       y = "F1-score",
-       fill = 'Model') +
-  
-  theme(axis.text.x=element_blank()) +  
-  #theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
-  
-  # Facet_wrap
-  facet_wrap(~colname, ncol=3)
-
-# Plot 
-ggplot(df_wide, aes(y=value, x=colname, fill=colname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = 0.7),
-           width=0.7,
-           stat="identity",
-           #fill="white",
-           colour="black") +
-  
-  # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3.5) +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
-  # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of Danish SOTA models",
-       x = "Domain", 
-       y = "F1-score",
-       fill= 'Domain') +
-  
-  theme(axis.text.x=element_blank()) +
-  #theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
-  
-  # Facet_wrap
-  facet_wrap(~rowname, ncol=5)
-```
-
-8 - output/other_models_performance/domain_f1_long.csv
-- Y-axis F1-score, X-axis each model, grouped by each domain
-- Y-axis F1-score, X-axis each domain, grouped by each model
+something
 ```{r}
 # Load data
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/domain_f1_long.csv", header=T)
@@ -595,68 +673,7 @@ df <- df %>% column_to_rownames(., var = 'Model')
 # Remove the across domains
 df <- df %>% select(!(name="across_domains"))
 
-# Make into long format
-df_wide <- df %>%
-  rownames_to_column() %>%
-  gather(colname, value, -rowname)
-
-# Plot 
-ggplot(df_wide, aes(fill=colname, y=value, x=rowname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = 0.7),
-           width=0.7,
-           stat="identity",
-           colour="black") +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
-  # Let x-axis dodge to avoid clutter
-  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
-  
-  # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of Dansih SOTA models",
-       x = "Model", 
-       y = "F1-score",
-       fill= 'Domain')
-
-# Plot
-ggplot(df_wide, aes(fill=rowname, y=value, x=colname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = 0.7),
-           width=0.7,
-           stat="identity",
-           colour="black") +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
-  # Let x-axis dodge to avoid clutter
-  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
-  
-  # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of Danish SOTA models",
-       x = "Domain", 
-       y = "F1-score",
-       fill = 'Model')
-```
-- Facet-wrap with model
-- Facet-wrap with domain
-```{r}
-# Load data
-df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/domain_f1_long.csv", header=T)
-
-# Set model values as rownames
-df <- df %>% column_to_rownames(., var = 'Model')
-
-# Remove the across domains
-df <- df %>% select(!(name="across_domains"))
+df
 
 # Make into long format
 df_wide <- df %>%
@@ -667,238 +684,78 @@ df_wide <- df %>%
 df_wide$rowname <- as.factor(df_wide$rowname) 
 df_wide$colname <- as.factor(df_wide$colname) 
 
-# Plot 
-ggplot(df_wide, aes(y=value, x=rowname, fill=rowname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = 0.7),
-           width=0.7,
-           stat="identity",
-           #fill="white",
-           colour="black") +
-  
-    # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3.5, position = position_dodge(0.7)) +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
-  # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of Danish SOTA models",
-       x = "Model", 
-       y = "F1-score",
-       fill = 'Model') +
-  
-  theme(axis.text.x=element_blank()) +  
-  #theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
-  
-  # Facet_wrap
-  facet_wrap(~colname, ncol=3)
+# Order by custom ordering:
+df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained", "saattrupdan/nbailab-base-ner-scandi", "da_dacy_large_trf", "da_dacy_medium_trf", "da_dacy_small_trf", "da_core_news_lg", "da_core_news_md","da_core_news_sm"))
+
+# # Plot 
+# ggplot(df_wide, aes(y=value, x=rowname, fill=rowname)) + 
+#   # Geom_bar
+#   geom_bar(position = position_dodge(width = 0.7),
+#            width=0.7,
+#            stat="identity",
+#            #fill="white",
+#            colour="black") +
+#   
+#   scale_fill_brewer(palette = "Set2") +  
+#   
+#     # Add text with F1-scores
+#   geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3.5, position = position_dodge(0.7)) +
+#   
+#   # Set theme
+#   theme(plot.title = element_text(hjust = 0.5), 
+#         plot.subtitle = element_text(hjust = 0.5),
+#         legend.position="right") +
+#   
+#   # Set labs
+#   labs(title = "F1-scores across domains",
+#        subtitle = "F1-performance of Danish SOTA models",
+#        x = "Model", 
+#        y = "F1-score",
+#        fill = 'Model') +
+#   
+#   theme(axis.text.x=element_blank()) +  
+#   #theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
+#   
+#   # Facet_wrap
+#   facet_wrap(~colname, ncol=3)
 
 # Plot 
-ggplot(df_wide, aes(y=value, x=colname, fill=colname)) + 
+ggplot(df_wide, aes(y=value, x=colname, color=colname)) + 
   # Geom_bar
-  geom_bar(position = position_dodge(width = 0.7),
-           width=0.7,
-           stat="identity",
+  geom_point(#position = position_dodge(width = 1),
+           #width=1,
+           stat="identity") + #,
            #fill="white",
-           colour="black") +
+           #colour="black") +
   
-    # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3, position = position_dodge(0.7)) +
+  coord_flip() + 
+  
+  scale_color_brewer(palette = "Set2") +  
+  
+  # Add text with F1-scores
+  #geom_text(aes(label=round(value, 2)), hjust=1.6, color="black", size=4, position = position_dodge(1)) +
   
   # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
+  # theme(plot.title = element_text(hjust = 0.5), 
+  #       plot.subtitle = element_text(hjust = 0.5),
+  #       legend.position="right") +
+  # 
   # Set labs
   labs(title = "F1-scores across domains",
        subtitle = "F1-performance of Danish SOTA models",
-       x = "Domain", 
+       x = "",#"Domain", 
        y = "F1-score",
        fill= 'Domain') +
   
-  theme(axis.text.x=element_blank()) +
+  theme(axis.text.x=element_blank())# +
   #theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
   
   # Facet_wrap
-  facet_wrap(~rowname, ncol=5)
+  #facet_wrap(~rowname, ncol=2)
+
+# Save plot
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/domain_f1_long_plot.png")
 ```
-
-9 - output/other_models_performance/tag_f1_wide.csv
-- Y-Axis F1-score, X-axis each tag grouped by model
-- Y-Axis F1-score, X-axis each model grouped by tag
-```{r}
-# Load dataset
-df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/tag_f1_wide.csv", header=T)
-
-# Set model values as rownames
-df <- df %>% column_to_rownames(., var = 'Model')
-
-# Make into long format
-df_wide <- df %>%
-  rownames_to_column() %>%
-  gather(colname, value, -rowname)
-
-# Plot 
-ggplot(df_wide, aes(fill=colname, y=value, x=rowname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = 0.9),
-           width=0.7,
-           stat="identity",
-           colour="black") +
-  
-    # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3, position = position_dodge(0.9)) +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
-  # Let x-axis dodge to avoid clutter
-  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
-  
-  # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of Danish SOTA models",
-       x = "Model", 
-       y = "F1-score",
-       fill = 'Tag')
-
-# Plot
-ggplot(df_wide, aes(fill=rowname, y=value, x=colname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = 0.7),
-           width=0.7,
-           stat="identity",
-           colour="black") +
-  
-    # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3, position = position_dodge(0.7)) +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
-  # Let x-axis dodge to avoid clutter
-  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
-  
-  # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of Danish SOTA models",
-       x = "Tag", 
-       y = "F1-score",
-       fill = 'Model')
-```
-
-10 - output/ner_models_performance/tag_f1_wide.csv
-- Y-Axis F1-score, X-axis each tag grouped by model
-- Y-Axis F1-score, X-axis each model grouped by tag
-```{r}
-df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/tag_f1_wide.csv", header=T)
-
-# Set model values as rownames
-df <- df %>% column_to_rownames(., var = 'Model')
-
-df <- df %>% select(!(name="Domain"))
-
-# Make into long format
-df_wide <- df %>%
-  rownames_to_column() %>%
-  gather(colname, value, -rowname)
-
-# Plot 
-ggplot(df_wide, aes(fill=colname, y=value, x=rowname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = 0.9),
-           width=0.7,
-           stat="identity",
-           colour="black") +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
-  # Let x-axis dodge to avoid clutter
-  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
-  
-  # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of the fine-grained models",
-       x = "Model", 
-       y = "F1-score",
-       fill = 'Tag')
-
-# Plot
-ggplot(df_wide, aes(fill=rowname, y=value, x=colname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = 0.7),
-           width=0.7,
-           stat="identity",
-           colour="black") +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="right") +
-  
-  # Let x-axis dodge to avoid clutter
-  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
-  
-  # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of the fine-grained models",
-       x = "Tag", 
-       y = "F1-score",
-       fill = 'Model')
-
-```
-
-
-
-
-# BARPLOTS for general level performance:
-
-output/ner_models_performance/domain_f1_long.csv
-```{r}
-# Load data
-df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/domain_f1_wide.csv", header=T)
-
-# Keep only the across domains
-df <- df %>% select(c("rowname"="Model", "value"="across_domains"))
-
-# Plot
-ggplot(df, aes(fill=rowname, y=value, x=rowname)) + 
-  # Geom_bar
-  geom_bar(position = position_dodge(width = .8),
-           width=.7,
-           stat="identity",
-           colour="black") +
-  
-    # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3.5, position = position_dodge(0.8)) +
-  
-  # Set theme
-  theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
-        legend.position="none") +
-  
-  # Let x-axis dodge to avoid clutter
-  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
-  
-  # Set labs
-  labs(title = "F1-scores",
-       subtitle = "F1-performance of the DaCy NER models",
-       x = "Model", 
-       y = "F1-score")
-```
-
 output/other_models_performance/domain_f1_long.csv
 ```{r}
 # Load data
@@ -907,6 +764,12 @@ df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_
 # Keep only the across domains
 df <- df %>% select(c("rowname"="Model", "value"="across_domains"))
 
+# Factor by right order
+df$rowname <- fct_rev(factor(df$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained", "saattrupdan/nbailab-base-ner-scandi", "da_dacy_large_trf", "da_dacy_medium_trf", "da_dacy_small_trf", "da_core_news_lg", "da_core_news_md","da_core_news_sm")))
+
+palette_blues <- colorRampPalette(colors = c("white", "#004b88"))(20)
+palette_blues
+
 # Plot
 ggplot(df, aes(fill=rowname, y=value, x=rowname)) + 
   # Geom_bar
@@ -915,16 +778,20 @@ ggplot(df, aes(fill=rowname, y=value, x=rowname)) +
            stat="identity",
            colour="black") +
   
-    # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3.5, position = position_dodge(0.8)) +
+  # Add text with F1-scores
+  geom_text(aes(label=round(value, 2)), hjust=1.6, color="black", size=4.5, position = position_dodge(0.8)) +
   
+  scale_fill_brewer(palette = "palette_blues") +  
+
   # Set theme
   theme(plot.title = element_text(hjust = 0.5), 
         plot.subtitle = element_text(hjust = 0.5),
         legend.position="none") +
   
+  coord_flip() +
+  
   # Let x-axis dodge to avoid clutter
-  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
+  #scale_x_discrete(guide = guide_axis(n.dodge=2)) +
   
   # Set labs
   labs(title = "F1-scores",
@@ -933,8 +800,6 @@ ggplot(df, aes(fill=rowname, y=value, x=rowname)) +
        y = "F1-score")
 
 ```
-
-
 
 
 
