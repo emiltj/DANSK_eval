@@ -1,0 +1,4 @@
+"","Model","F1 Strict Match","F1 Exact Match","F1 Partial Match","Entity Type Match"
+"1","da_dacy_small_ner_fine_grained",0.774,0.863,0.892,0.795
+"2","da_dacy_medium_ner_fine_grained",0.803,0.865,0.893,0.821
+"3","da_dacy_large_ner_fine_grained",0.822,0.878,0.901,0.84

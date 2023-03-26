@@ -204,16 +204,56 @@ with open("output/other_models_performance/old_format_all_stats.json", "r") as j
 df = pd.DataFrame.from_records(
     [
         (level1, level2, level3, leaf)
-        for level1, level2_dict in model_perf.items()
+        for level1, level2_dict in data.items()  # MAY CHANGE TO MODEL_PERF
         for level2, level3_dict in level2_dict.items()
         for level3, leaf in level3_dict.items()
     ],
     columns=["Model", "Domain", "Metric", "Score"],
 )
+
+
 df_no_individual_tags = df[pd.to_numeric(df["Score"], errors="coerce").notnull()]
+
+df_across = df_no_individual_tags[df_no_individual_tags["Domain"] == "all_domains"]
+
+
+df_f_r_p_with_name = pd.pivot(
+    df_across,
+    index=["Model"],
+    columns="Metric",
+    values="Score",
+)
+df_f_p_r = pd.DataFrame(
+    {
+        "F1": df_f_r_p_with_name["ents_f"],
+        "Recall": df_f_r_p_with_name["ents_r"],
+        "Precision": df_f_r_p_with_name["ents_p"],
+    }
+)
+
+reorder_list = [
+    "da_dacy_large_ner_fine_grained",
+    "da_dacy_medium_ner_fine_grained",
+    "da_dacy_small_ner_fine_grained",
+    "saattrupdan/nbailab-base-ner-scandi",
+    "da_dacy_large_trf",
+    "da_dacy_medium_trf",
+    "da_dacy_small_trf",
+    "da_core_news_lg",
+    "da_core_news_md",
+    "da_core_news_sm",
+]
+
+df_f_p_r = df_f_p_r.reindex(reorder_list)
+df_f_p_r.astype(float).round(3)
+
+save_df_as_csv(df_f_p_r, "output/other_models_performance/f1_recall_precision.csv")
+
 df_f1_no_individual_tags = df_no_individual_tags[
     df_no_individual_tags["Metric"] == "ents_f"
 ]
+
+
 domain_f1 = pd.pivot(
     df_f1_no_individual_tags,
     index=["Model", "Metric"],
@@ -229,19 +269,10 @@ domain_f1 = domain_f1.set_index("Model")
 domain_f1 = domain_f1.drop(["Metric"], axis=1)
 domain_f1_transposed = domain_f1.T
 
-reorder_list = [
-    "da_dacy_large_ner_fine_grained",
-    "da_dacy_medium_ner_fine_grained",
-    "da_dacy_small_ner_fine_grained",
-    "da_dacy_large_trf",
-    "da_dacy_medium_trf",
-    "da_dacy_small_trf",
-    "da_core_news_lg",
-    "da_core_news_md",
-    "da_core_news_sm",
-    "saattrupdan/nbailab-base-ner-scandi",
-]
+
 reorder_list_index = [3, 5, 7, 4, 6, 8, 0, 1, 2, 8]
+
+domain_f1_transposed
 
 domain_f1_transposed = domain_f1_transposed[
     domain_f1_transposed.columns[reorder_list_index]

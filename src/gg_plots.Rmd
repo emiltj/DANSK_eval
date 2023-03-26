@@ -8,13 +8,9 @@ date: "2023-03-14"
 ```{r}
 library("pacman")
 library("ggplot2")
-install.packages("tidyverse")
 library("tidyverse")
+library("RColorBrewer")
 
-library("pacman")
-library("pacman")
-library("pacman")
-library("pacman", "ggplot2", "tidyverse", "corrr", "RColorBrewer")
 #pacman::p_load(ggplot2, tidyverse, corrr, RColorBrewer)
 ```
 
@@ -26,11 +22,13 @@ df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_
 
 # Change column names
 colnames(df)[1] <- "TAG"
-colnames(df)[12] <- "NOT TAGGED"
+colnames(df)[12] <- "NO TAG"
 colnames(df)[20] <- "WORK OF ART"
 
 # Column to index/rownames
 df <- df %>% column_to_rownames(., var = 'TAG')
+
+rownames(df)[11] <- "NO TAG"
 
 # Make into wide format
 df_wide <- df %>%
@@ -71,7 +69,7 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   # Labs
   labs(title = "DANSK and initial annotations",
        subtitle = "Confusion matrix with DANSK gold annotations and initial annotations",
-       x = "Accumulate annotations of initial annotators", 
+       x = "Initial annotations accumulated", 
        y = "DANSK gold") #+
   
   # Theme and positioning
@@ -79,7 +77,7 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   #       plot.subtitle = element_text(hjust = 0.5))
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_final_interrater/conf_matrix_plot.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK_initial/conf_mtx_initial_vs_DANSK.png")
 ```
 Small
 ```{r}
@@ -88,11 +86,13 @@ df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_mo
 
 # Change column names
 colnames(df)[1] <- "TAG"
-colnames(df)[12] <- "NOT TAGGED"
+colnames(df)[12] <- "NO TAG"
 colnames(df)[20] <- "WORK OF ART"
 
 # Column to index/rownames
 df <- df %>% column_to_rownames(., var = 'TAG')
+
+rownames(df)[11] <- "NO TAG"
 
 # Make into wide format
 df_wide <- df %>%
@@ -142,7 +142,7 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
 
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/small_confusion_matrix_plot.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/conf_sm.png")
 ```
 Medium
 ```{r}
@@ -151,11 +151,13 @@ df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_mo
 
 # Change column names
 colnames(df)[1] <- "TAG"
-colnames(df)[12] <- "NOT TAGGED"
+colnames(df)[12] <- "NO TAG"
 colnames(df)[20] <- "WORK OF ART"
 
 # Column to index/rownames
 df <- df %>% column_to_rownames(., var = 'TAG')
+
+rownames(df)[11] <- "NO TAG"
 
 # Make into wide format
 df_wide <- df %>%
@@ -205,7 +207,7 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
 
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/medium_confusion_matrix_plot.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/conf_md.png")
 ```
 Large
 ```{r}
@@ -214,11 +216,13 @@ df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_mo
 
 # Change column names
 colnames(df)[1] <- "TAG"
-colnames(df)[12] <- "NOT TAGGED"
+colnames(df)[12] <- "NO TAG"
 colnames(df)[20] <- "WORK OF ART"
 
 # Column to index/rownames
 df <- df %>% column_to_rownames(., var = 'TAG')
+
+rownames(df)[11] <- "NO TAG"
 
 # Make into wide format
 df_wide <- df %>%
@@ -268,7 +272,7 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   #       plot.subtitle = element_text(hjust = 0.5))
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/large_confusion_matrix_plot.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/conf_lg.png")
 ```
 
 # NER MODEL PERFORMANCE
@@ -282,6 +286,8 @@ df <- df %>% column_to_rownames(., var = 'Model')
 
 # Remove the across domains
 df <- df %>% select(!(name="across_domains"))
+
+df
 
 # Make into long format
 df_wide <- df %>%
@@ -315,7 +321,7 @@ ggplot(df_wide, aes(y=value, x=rowname)) +
        color = 'Domain')
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/domain_f1_wide_plot.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/thesis/NER/domain.png")
 ```
 TAG PERFORMANCE
 ```{r}
@@ -344,7 +350,8 @@ ggplot(df_wide, aes(y=value, x=colname)) +
   # Geom_bar
   geom_point(size = 3.5,
           aes(color=colname),
-          stat="identity") +
+          stat="identity",
+          show.legend = FALSE) +
 
   geom_point(shape=1, size=3.5, colour="black")+
 
@@ -357,7 +364,7 @@ ggplot(df_wide, aes(y=value, x=colname)) +
   #theme_minimal() +
 
   # Set labs
-  labs(title = "F1-scores across domains",
+  labs(title = "F1-scores across tags",
        subtitle = "F1-performance of the NER fine-grained models",
        x = "Model",
        y = "F1-score",
@@ -366,12 +373,13 @@ ggplot(df_wide, aes(y=value, x=colname)) +
   facet_wrap(~rowname, ncol=3)
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/tag_f1_wide_plot.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/tag.png")
 ```
 
 # OTHER MODELS PERFORMANCE
 GENERAL PERFORMANCE
 ```{r}
+# Load data
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/domain_f1_long.csv", header=T)
 
 # Set model values as rownames
@@ -398,11 +406,12 @@ ggplot(df_wide, aes(color=rowname, y=value, x=rowname)) +
            #width=0.7,
           size = 2.5,
           aes(color=rowname),
-          stat="identity") + #,
+          stat="identity",
+          show.legend = FALSE) + #,
            #colour="black") +
   
   # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), hjust=1.4, color="black", size=3.5) +
+  geom_text(aes(label=round(value, 2)), vjust=-.8, color="black", size=3.5) +
   
   guides(color = guide_legend(reverse=TRUE)) +
   
@@ -420,7 +429,7 @@ ggplot(df_wide, aes(color=rowname, y=value, x=rowname)) +
        color = 'Model')
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/f1.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/general.png")
 ```
 DOMAIN MODEL PERFORMANCE
 ```{r}
@@ -468,7 +477,7 @@ ggplot(df_wide, aes(color=colname, y=value, x=rowname)) +
        color= 'Domain')
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/domain_f1.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/domain.png")
 ```
 TAG MODEL PERFORMANCE
 ```{r}
@@ -514,10 +523,157 @@ ggplot(df_wide, aes(color=colname, y=value, x=rowname)) +
        color = 'Tag')
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/tag_f1.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/tag.png")
 ```
 
 
+# CSV's for TABLES (see docs for how to structure):
+Kappa
+```{r}
+# Avg kappa per annotator initially. On token level and on annotated token level
+non_annotated <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_initial_interrater/kappa_also_non_annotated.csv")
+annotated <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_initial_interrater/kappa_annotated.csv")
+
+non_annotated = non_annotated %>% select("Avg. Cohen's Kappa annotated tokens"="rater_avg")
+annotated = annotated %>% select("Avg. Cohen's Kappa tokens"="rater_avg")
+
+kappa = cbind(non_annotated, annotated)
+
+rownames <- c("Annotator 1", "Annotator 2", "Annotator 3", "Annotator 4", "Annotator 5", "Annotator 6", "Annotator 7", "Annotator 8", "Annotator 9", "Annotator 10")
+
+rownames(kappa) <- rownames
+
+write.csv(kappa, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK_initial/kappa.csv")
+```
+
+Doc overlap
+```{r}
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_initial_interrater/doc_overlap.csv")
+
+df = df %>% select(!"X")
+
+rownames <- c("Annotator 1", "Annotator 2", "Annotator 3", "Annotator 4", "Annotator 5", "Annotator 6", "Annotator 7", "Annotator 8", "Annotator 9", "Annotator 10")
+
+colnames <- c("Annotator 1", "Annotator 2", "Annotator 3", "Annotator 4", "Annotator 5", "Annotator 6", "Annotator 7", "Annotator 8", "Annotator 9", "Annotator 10")
+
+rownames(df) <- rownames
+colnames(df) <- colnames
+
+write.csv(df, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK_initial/doc_overlap.csv")
+```
+
+Tag counts
+```{r}
+# Already there from the "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/src/inter_annotators_matrix.ipynb"
+```
+
+DANSK
+- Overall
+- Full, train, dev, test (including domain + tag distribution)
+```{r}
+# Overall has be made manually; located in"/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/overall.tgn")
+
+# Full
+full = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/full/domain_desc_stats_wide.csv")
+full = full[,order(colnames(full))]
+new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books", "X")
+colnames(full) = new_col_names
+full <- full[, c(9, 1, 2, 3, 4, 5, 6, 7, 8)]
+write.csv(full, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/full.csv")
+
+# Train
+train = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/train/domain_desc_stats_wide.csv")
+train = train[,order(colnames(train))]
+new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books", "X")
+colnames(train) = new_col_names
+train <- train[, c(9, 1, 2, 3, 4, 5, 6, 7, 8)]
+write.csv(train, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/train.csv")
+
+# Dev
+dev = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/dev/domain_desc_stats_wide.csv")
+dev = train[,order(colnames(dev))]
+new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books", "X")
+colnames(dev) = new_col_names
+dev <- dev[, c(9, 1, 2, 3, 4, 5, 6, 7, 8)]
+write.csv(dev, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/dev.test")
+
+# Test
+test = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/test/domain_desc_stats_wide.csv")
+test = test[,order(colnames(dev))]
+new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books", "X")
+colnames(test) = new_col_names
+test <- test[, c(9, 1, 2, 3, 4, 5, 6, 7, 8)]
+write.csv(test, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/test.csv")
+
+```
+
+###### GOTTEN TO HERE ######
+###### GOTTEN TO HERE ######
+###### GOTTEN TO HERE ######
+###### GOTTEN TO HERE ######
+###### GOTTEN TO HERE ######
+###### GOTTEN TO HERE ######
+SOTA
+- Recall, Precision, F1-score
+- Domain
+- Tag
+```{r}
+# Recall, precision and F1-score
+
+# Domain (including across domains)
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/domain_f1_long.csv", header=T)
+df <- df %>% column_to_rownames(., var = 'Model')
+df = df[,order(colnames(df))]
+new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books")
+colnames(df) = new_col_names
+df
+
+
+train = train[,order(colnames(train))]
+new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books", "X")
+colnames(train) = new_col_names
+train <- train[, c(9, 1, 2, 3, 4, 5, 6, 7, 8)]
+
+
+
+df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained", "saattrupdan/nbailab-base-ner-scandi", "da_dacy_large_trf", "da_dacy_medium_trf", "da_dacy_small_trf", "da_core_news_lg", "da_core_news_md","da_core_news_sm"))
+
+
+
+
+
+
+# Tag
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/tag_f1_wide.csv", header=T)
+
+
+```
+
+NER
+- Type performance
+- Recall, Precision, F1-score
+- Domain
+- Tag
+```{r}
+# Type performance
+df = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/types_matches_f1.csv")
+df["Model"] = c("da_dacy_small_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_large_ner_fine_grained")
+
+df = df %>% select(!"X")
+colnames(df) = c("Model", "F1 Strict Match", "F1 Exact Match", "F1 Partial Match", "Entity Type Match")
+df = df %>% 
+ mutate_if(is.numeric, round, digits=3)
+
+write.csv(df, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/type.csv")
+
+# Recall, Precision and F1-score
+
+# Domain
+
+
+# Tag
+
+```
 
 
 

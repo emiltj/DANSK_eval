@@ -99,18 +99,51 @@ for model_name, model in model_pairs.items():
 
 save_perf_as_json(model_perf, "output/ner_models_performance/new_format_all_stats.json")
 
+# Open performance
+with open("output/ner_models_performance/new_format_all_stats.json", "r") as j:
+    data = json.loads(j.read())
 
 # Get F1-scores for each model for each domain
 df = pd.DataFrame.from_records(
     [
         (level1, level2, level3, leaf)
-        for level1, level2_dict in model_perf.items()
+        for level1, level2_dict in data.items()
         for level2, level3_dict in level2_dict.items()
         for level3, leaf in level3_dict.items()
     ],
     columns=["Model", "Domain", "Metric", "Score"],
 )
 df_no_individual_tags = df[pd.to_numeric(df["Score"], errors="coerce").notnull()]
+
+
+############### NEEW ###############
+df_across = df_no_individual_tags[df_no_individual_tags["Domain"] == "all_domains"]
+
+
+df_f_r_p_with_name = pd.pivot(
+    df_across,
+    index=["Model"],
+    columns="Metric",
+    values="Score",
+)
+df_f_p_r = pd.DataFrame(
+    {
+        "F1": df_f_r_p_with_name["ents_f"],
+        "Recall": df_f_r_p_with_name["ents_r"],
+        "Precision": df_f_r_p_with_name["ents_p"],
+    }
+)
+
+reorder_list = [
+    "da_dacy_large_ner_fine_grained",
+    "da_dacy_medium_ner_fine_grained",
+    "da_dacy_small_ner_fine_grained",
+]
+
+df_f_p_r = df_f_p_r.reindex(reorder_list)
+df_f_p_r.astype(float).round(3)
+
+save_df_as_csv(df_f_p_r, "output/ner_models_performance/f1_recall_precision.csv")
 
 df_f1_no_individual_tags = df_no_individual_tags[
     df_no_individual_tags["Metric"] == "ents_f"

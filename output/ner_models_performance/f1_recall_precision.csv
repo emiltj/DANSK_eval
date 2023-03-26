@@ -1,0 +1,4 @@
+Model,F1,Recall,Precision
+da_dacy_large_ner_fine_grained,0.823,0.834,0.813
+da_dacy_medium_ner_fine_grained,0.806,0.818,0.794
+da_dacy_small_ner_fine_grained,0.776,0.77,0.781
