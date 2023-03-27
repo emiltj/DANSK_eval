@@ -276,6 +276,49 @@ ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/con
 ```
 
 # NER MODEL PERFORMANCE
+F1, RECALL, PRECISION PERFORMANCE
+```{r}
+# Load data
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/f1_recall_precision.csv", header=T)
+
+# Set model values as rownames
+df <- df %>% column_to_rownames(., var = 'Model')
+
+# Make into long format
+df_wide <- df %>%
+  rownames_to_column() %>%
+  gather(colname, value, -rowname)
+
+# Order by custom ordering:
+df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained"))
+df_wide$rowname <- fct_rev(df_wide$rowname)
+
+# Plot
+ggplot(df_wide, aes(y=value, x=rowname)) +
+  # Geom_bar
+  geom_point(size = 3.5,
+          aes(color=colname),
+          stat="identity") +
+
+  geom_point(shape=1, size=3.5, colour="black")+
+
+  scale_color_brewer(palette = "Set2") +
+
+  coord_flip() + 
+  
+  # theme_minimal() +
+
+  # Set labs
+  labs(title = "Performance",
+       subtitle = "F1, recall and precision scores of the NER fine-grained models",
+       x = "Model",
+       y = "Score",
+       color = 'Metric')
+
+# Save plot
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/f1_recall_precision.png")
+```
+
 DOMAIN PERFORMANCE
 ```{r}
 # Load dataset
@@ -377,6 +420,48 @@ ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/tag
 ```
 
 # OTHER MODELS PERFORMANCE
+F1, RECALL, PRECISION PERFORMANCE
+```{r}
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/f1_recall_precision.csv", header=T)
+
+# Set model values as rownames
+df <- df %>% column_to_rownames(., var = 'Model')
+
+# Make into long format
+df_wide <- df %>%
+  rownames_to_column() %>%
+  gather(colname, value, -rowname)
+
+# Order by custom ordering:
+df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained", "saattrupdan/nbailab-base-ner-scandi", "da_dacy_large_trf",                   "da_dacy_medium_trf", "da_dacy_small_trf", "da_core_news_lg", "da_core_news_md", "da_core_news_sm"))
+df_wide$rowname <- fct_rev(df_wide$rowname)
+
+# Plot
+ggplot(df_wide, aes(y=value, x=rowname)) +
+  # Geom_bar
+  geom_point(size = 3.5,
+          aes(color=colname),
+          stat="identity") +
+
+  geom_point(shape=1, size=3.5, colour="black")+
+
+  scale_color_brewer(palette = "Set2") +
+
+  coord_flip() + 
+  
+  # theme_minimal() +
+
+  # Set labs
+  labs(title = "Performance",
+       subtitle = "F1, recall and precision scores of Danish SOTA models",
+       x = "Model",
+       y = "Score",
+       color = 'Metric')
+
+# Save plot
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/f1_recall_precision.png")
+```
+
 GENERAL PERFORMANCE
 ```{r}
 # Load data
@@ -571,7 +656,7 @@ DANSK
 - Overall
 - Full, train, dev, test (including domain + tag distribution)
 ```{r}
-# Overall has be made manually; located in"/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/overall.tgn")
+# Overall has be made manually; located in "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/overall.tgn")
 
 # Full
 full = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/full/domain_desc_stats_wide.csv")
@@ -591,11 +676,11 @@ write.csv(train, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thes
 
 # Dev
 dev = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/dev/domain_desc_stats_wide.csv")
-dev = train[,order(colnames(dev))]
+dev = dev[,order(colnames(dev))]
 new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books", "X")
 colnames(dev) = new_col_names
 dev <- dev[, c(9, 1, 2, 3, 4, 5, 6, 7, 8)]
-write.csv(dev, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/dev.test")
+write.csv(dev, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/dev.csv")
 
 # Test
 test = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/test/domain_desc_stats_wide.csv")
@@ -607,18 +692,13 @@ write.csv(test, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesi
 
 ```
 
-###### GOTTEN TO HERE ######
-###### GOTTEN TO HERE ######
-###### GOTTEN TO HERE ######
-###### GOTTEN TO HERE ######
-###### GOTTEN TO HERE ######
-###### GOTTEN TO HERE ######
 SOTA
 - Recall, Precision, F1-score
 - Domain
 - Tag
 ```{r}
 # Recall, precision and F1-score
+# Already present in "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/f1_recall_precision.csv")
 
 # Domain (including across domains)
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/domain_f1_long.csv", header=T)
@@ -626,26 +706,16 @@ df <- df %>% column_to_rownames(., var = 'Model')
 df = df[,order(colnames(df))]
 new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books")
 colnames(df) = new_col_names
-df
-
-
-train = train[,order(colnames(train))]
-new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books", "X")
-colnames(train) = new_col_names
-train <- train[, c(9, 1, 2, 3, 4, 5, 6, 7, 8)]
-
-
-
-df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained", "saattrupdan/nbailab-base-ner-scandi", "da_dacy_large_trf", "da_dacy_medium_trf", "da_dacy_small_trf", "da_core_news_lg", "da_core_news_md","da_core_news_sm"))
-
-
-
-
-
+df <- df[c(1, 2, 3, 10, 4, 5, 6, 7, 8, 9),]
+df = round(df, 3)
+write.csv(df, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/domain.csv")
 
 # Tag
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/other_models_performance/tag_f1_wide.csv", header=T)
-
+df <- df %>% column_to_rownames(., var = 'Model')
+df = df[,order(colnames(df))]
+df = round(df, 3)
+write.csv(df, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/tag.csv")
 
 ```
 
@@ -654,24 +724,36 @@ NER
 - Recall, Precision, F1-score
 - Domain
 - Tag
-```{r}
+```{r} 
 # Type performance
 df = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/types_matches_f1.csv")
 df["Model"] = c("da_dacy_small_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_large_ner_fine_grained")
-
 df = df %>% select(!"X")
 colnames(df) = c("Model", "F1 Strict Match", "F1 Exact Match", "F1 Partial Match", "Entity Type Match")
-df = df %>% 
- mutate_if(is.numeric, round, digits=3)
-
+df = df %>% mutate_if(is.numeric, round, digits=3)
 write.csv(df, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/type.csv")
 
 # Recall, Precision and F1-score
+# Already present in "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/f1_recall_precision.csv")
 
 # Domain
-
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/domain_f1_wide.csv", header=T)
+df <- df %>% column_to_rownames(., var = 'Model')
+df = df[,order(colnames(df))]
+new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books")
+colnames(df) = new_col_names
+df = round(df, 3)
+write.csv(df, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/domain.csv")
 
 # Tag
+# Load dataset
+df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_models_performance/tag_f1_wide.csv", header=T)
+df <- df %>% column_to_rownames(., var = 'Model')
+df = df[,order(colnames(df))]
+df = df  %>% select(!Domain)
+df = round(df, 3)
+colnames(df)[18] = "WORK OF ART"
+write.csv(df, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/tag.csv")
 
 ```
 

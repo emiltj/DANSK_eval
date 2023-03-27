@@ -1,4 +1,4 @@
 Model,F1,Recall,Precision
-da_dacy_large_ner_fine_grained,0.8232189973614776,0.8336673346693386,0.8130293159609121
-da_dacy_medium_ner_fine_grained,0.8055281342546889,0.8176352705410822,0.7937743190661478
-da_dacy_small_ner_fine_grained,0.7756474941136898,0.7702070808283233,0.7811653116531165
+da_dacy_large_ner_fine_grained,0.823,0.834,0.813
+da_dacy_medium_ner_fine_grained,0.806,0.818,0.794
+da_dacy_small_ner_fine_grained,0.776,0.77,0.781

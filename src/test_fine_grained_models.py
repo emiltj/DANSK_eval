@@ -141,7 +141,8 @@ reorder_list = [
 ]
 
 df_f_p_r = df_f_p_r.reindex(reorder_list)
-df_f_p_r.astype(float).round(3)
+df_f_p_r = df_f_p_r.astype(float).round(3)
+df_f_p_r = df_f_p_r.astype(float)
 
 save_df_as_csv(df_f_p_r, "output/ner_models_performance/f1_recall_precision.csv")
 

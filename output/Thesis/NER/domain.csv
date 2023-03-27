@@ -1,0 +1,4 @@
+"","All domains combined","Conversation","Dannet","Legal","News","Social Media","Web","Wiki and Books"
+"da_dacy_large_ner_fine_grained",0.823,0.796,0.75,0.852,0.841,0.793,0.826,0.778
+"da_dacy_medium_ner_fine_grained",0.806,0.718,0.667,0.854,0.759,0.847,0.802,0.838
+"da_dacy_small_ner_fine_grained",0.776,0.82,1,0.866,0.86,0.8,0.756,0.709

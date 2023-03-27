@@ -1,0 +1,11 @@
+"","LOCATION","ORGANIZATION","PERSON"
+"da_dacy_large_ner_fine_grained",0.883,0.863,0.871
+"da_dacy_medium_ner_fine_grained",0.832,0.851,0.872
+"da_dacy_small_ner_fine_grained",0.793,0.781,0.833
+"da_dacy_large_trf",0.835,0.501,0.735
+"da_dacy_medium_trf",0.739,0.477,0.703
+"da_dacy_small_trf",0.667,0.378,0.515
+"da_core_news_lg",0.629,0.281,0.607
+"da_core_news_md",0.649,0.31,0.579
+"da_core_news_sm",0.435,0.225,0.31
+"saattrupdan/nbailab-base-ner-scandi",0.793,0.457,0.699
