@@ -69,6 +69,7 @@ domains = [
     "All Domains",
 ]
 domains = [domain.lower().replace(" ", "_").replace("&", "and") for domain in domains]
+
 import os
 
 
@@ -94,6 +95,8 @@ for p in ["train", "dev", "test"]:
 
     save_df_as_csv(df, f"output/DANSK_descriptive/{p}/domain_desc_stats.csv")
     save_df_as_csv(df_wide, f"output/DANSK_descriptive/{p}/domain_desc_stats_wide.csv")
+
+df_wide
 
 
 n_docs_domains = []

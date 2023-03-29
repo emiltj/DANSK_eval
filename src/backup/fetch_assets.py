@@ -32,14 +32,14 @@ def dataset_to_doc(dataset, nlp):
 
 
 def fetch_dansk():
+    if not os.path.exists("data/DANSK"):
+        os.makedirs("data/DANSK")
     if not os.path.exists("data/DANSK_split_by_domain"):
         os.makedirs("data/DANSK_split_by_domain")
     if not os.path.exists("data/DANSK_split_by_domain/test/"):
         os.makedirs("data/DANSK_split_by_domain/train")
         os.makedirs("data/DANSK_split_by_domain/dev")
         os.makedirs("data/DANSK_split_by_domain/test")
-    if not os.path.exists("data/DANSK"):
-        os.makedirs("data/DANSK")
 
     # Download the datasetdict from the HuggingFace Hub
     try:

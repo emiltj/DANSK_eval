@@ -6,6 +6,7 @@ date: "2023-03-14"
 
 # LOAD PACKAGES
 ```{r}
+library("kableExtra")
 library("pacman")
 library("ggplot2")
 library("tidyverse")
@@ -45,11 +46,11 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   geom_tile(aes(fill = value)) +
   
   # Colours of fill gradient. OOB = how to handle out of bounds.
-  scale_fill_gradient2(low = "lightblue",
+  scale_fill_gradient2(low = "white",
                        high = "red",
-                       mid = "white",
-                       midpoint = 150,
-                       limit = c(0,300),
+                       #mid = "white",
+                       midpoint = 10,
+                       limit = c(0,250),
                        space = "Lab",
                        name="Number of annotations",
                        oob=scales::squish) +
@@ -67,14 +68,14 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
   
   # Labs
-  labs(title = "DANSK and initial annotations",
-       subtitle = "Confusion matrix with DANSK gold annotations and initial annotations",
+  labs(# title = "DANSK and initial annotations",
+       # subtitle = "Confusion matrix with DANSK gold annotations and initial annotations",
        x = "Initial annotations accumulated", 
        y = "DANSK gold") #+
   
   # Theme and positioning
   # theme(plot.title = element_text(hjust = 0.5), 
-  #       plot.subtitle = element_text(hjust = 0.5))
+  #       plot.# subtitle = element_text(hjust = 0.5))
 
 # Save plot
 ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK_initial/conf_mtx_initial_vs_DANSK.png")
@@ -109,10 +110,10 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   geom_tile(aes(fill = value)) +
   
   # Colours of fill gradient. OOB = how to handle out of bounds.
-  scale_fill_gradient2(low = "lightblue",
+  scale_fill_gradient2(low = "white",
                        high = "red",
-                       mid = "white",
-                       midpoint = 25,
+                       #mid = "white",
+                       midpoint = 5,
                        limit = c(0,50),
                        space = "Lab",
                        name="Number of annotations",
@@ -131,14 +132,14 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
   
   # Labs
-  labs(title = "Prediction errors - small model",
-       subtitle = "Confusion matrix of da_dacy_small_ner_fine_grained",
+  labs(# title = "Prediction errors - small model",
+       # subtitle = "Confusion matrix of da_dacy_small_ner_fine_grained",
        x = "da_dacy_small_ner_fine_grained", 
        y = "DANSK gold") #+
   
   # Theme and positioning
   # theme(plot.title = element_text(hjust = 0.5), 
-  #       plot.subtitle = element_text(hjust = 0.5))
+  #       plot.# subtitle = element_text(hjust = 0.5))
 
 
 # Save plot
@@ -174,10 +175,10 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   geom_tile(aes(fill = value)) +
   
   # Colours of fill gradient. OOB = how to handle out of bounds.
-  scale_fill_gradient2(low = "lightblue",
+  scale_fill_gradient2(low = "white",
                        high = "red",
-                       mid = "white",
-                       midpoint = 25,
+                       #mid = "white",
+                       midpoint = 5,
                        limit = c(0,50),
                        space = "Lab",
                        name="Number of annotations",
@@ -196,14 +197,14 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   theme(axis.text.x=element_text(angle = -90, hjust = 0, vjust = 0)) +
   
   # Labs
-  labs(title = "Prediction errors - medium model",
-       subtitle = "Confusion matrix of da_dacy_medium_ner_fine_grained",
+  labs(# title = "Prediction errors - medium model",
+       # subtitle = "Confusion matrix of da_dacy_medium_ner_fine_grained",
        x = "da_dacy_medium_ner_fine_grained", 
        y = "DANSK gold annotations") #+
   
   # Theme and positioning
   # theme(plot.title = element_text(hjust = 0.5), 
-  #       plot.subtitle = element_text(hjust = 0.5))
+  #       plot.# subtitle = element_text(hjust = 0.5))
 
 
 # Save plot
@@ -239,10 +240,10 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   geom_tile(aes(fill = value)) +
   
   # Colours of fill gradient. OOB = how to handle out of bounds.
-  scale_fill_gradient2(low = "lightblue",
+  scale_fill_gradient2(low = "white",
                        high = "red",
-                       mid = "white",
-                       midpoint = 25,
+                       #mid = "white",
+                       midpoint = 5,
                        limit = c(0,50),
                        space = "Lab",
                        name="Number of annotations",
@@ -262,14 +263,14 @@ ggplot(df_wide, aes(x = rowname, y = ordered(colname, levels=rev(levels)))) +
   
   # Labs
   # Labs
-  labs(title = "Prediction errors - large model",
-       subtitle = "Confusion matrix of da_dacy_large_ner_fine_grained",
+  labs(# title = "Prediction errors - large model",
+       # subtitle = "Confusion matrix of da_dacy_large_ner_fine_grained",
        x = "da_dacy_large_ner_fine_grained", 
        y = "DANSK gold annotations")# +
   
   # Theme and positioning
   # theme(plot.title = element_text(hjust = 0.5), 
-  #       plot.subtitle = element_text(hjust = 0.5))
+  #       plot.# subtitle = element_text(hjust = 0.5))
 
 # Save plot
 ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/conf_lg.png")
@@ -296,29 +297,32 @@ df_wide$rowname <- fct_rev(df_wide$rowname)
 # Plot
 ggplot(df_wide, aes(y=value, x=rowname)) +
   # Geom_bar
-  geom_point(size = 3.5,
+  geom_point(size = 5,
           aes(color=colname),
+          # color="darkgrey",
           stat="identity") +
 
-  geom_point(shape=1, size=3.5, colour="black")+
+  geom_point(shape=1, size = 5, colour="black") +
 
   scale_color_brewer(palette = "Set2") +
+  
+  # Add text with F1-scores
+  # geom_text(aes(label=ifelse(colname=="F1", round(value, 2), "")), vjust=-1.4, color="black", position = position_dodge(0.7)) +
 
   coord_flip() + 
   
-  # theme_minimal() +
+  theme_linedraw() +
 
   # Set labs
-  labs(title = "Performance",
-       subtitle = "F1, recall and precision scores of the NER fine-grained models",
+  labs(# title = "Performance",
+       # subtitle = "F1, recall and precision scores of the NER fine-grained models",
        x = "Model",
        y = "Score",
        color = 'Metric')
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/f1_recall_precision.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/f1_recall_precision.png", width = 3000, height = 1500, units = "px")
 ```
-
 DOMAIN PERFORMANCE
 ```{r}
 # Load dataset
@@ -330,12 +334,26 @@ df <- df %>% column_to_rownames(., var = 'Model')
 # Remove the across domains
 df <- df %>% select(!(name="across_domains"))
 
-df
-
 # Make into long format
 df_wide <- df %>%
   rownames_to_column() %>%
   gather(colname, value, -rowname)
+
+# Load data with size of domains
+size_of_domains = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/test.csv") %>% filter(. ,X == "DOCS") %>% select(. ,c(conversation = Conversation, dannet = Dannet, legal = Legal, news = News, social_media = Social.Media, web = Web, wiki_and_books = Wiki.and.Books))
+
+# Add size of domains as column in df_wide
+df_wide = df_wide %>%
+  mutate(score = case_when(
+    colname == "conversation" ~ size_of_domains[1,"conversation"],
+    colname == "dannet" ~ size_of_domains[1,"dannet"],
+    colname == "legal" ~ size_of_domains[1,"legal"],
+    colname == "news" ~ size_of_domains[1,"news"],
+    colname == "social_media" ~ size_of_domains[1,"social_media"],
+    colname == "web" ~ as.character(size_of_domains[1,"web"]),
+    colname == "wiki_and_books" ~ size_of_domains[1,"wiki_and_books"]
+    ))
+df_wide$n_docs = as.integer(df_wide$score)
 
 # Order by custom ordering:
 df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained"))
@@ -344,27 +362,30 @@ df_wide$rowname <- fct_rev(df_wide$rowname)
 # Plot
 ggplot(df_wide, aes(y=value, x=rowname)) +
   # Geom_bar
-  geom_point(size = 3.5,
-          aes(color=colname),
+  geom_point(#size = 5,
+          aes(color = colname,
+              size = n_docs),
           stat="identity") +
 
-  geom_point(shape=1, size=3.5, colour="black")+
+  geom_point(shape=1, aes(size = n_docs), colour="black") +
+  scale_size(range = c(4, 8)) +
 
   scale_color_brewer(palette = "Set2") +
 
   coord_flip() + 
   
-  # theme_minimal() +
-
+  theme_linedraw() +
+  
   # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of the NER fine-grained models",
+  labs(# title = "F1-scores across domains",
+       # subtitle = "F1-performance of the NER fine-grained models",
        x = "Model",
        y = "F1-score",
-       color = 'Domain')
+       color = 'Domain',
+       size = "Number of documents")
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/thesis/NER/domain.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/thesis/NER/domain.png", width = 3000, height = 1500, units = "px")
 ```
 TAG PERFORMANCE
 ```{r}
@@ -373,9 +394,7 @@ df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/ner_mo
 
 # Set model values as rownames
 df <- df %>% column_to_rownames(., var = 'Model')
-
 df <- df %>% select(!(name="Domain"))
-
 colnames(df)[length(colnames(df))] <- "WORK OF ART"
 
 # Make into long format
@@ -388,35 +407,88 @@ df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grai
 df_wide$colname <- factor(df_wide$colname)
 df_wide$colname <- fct_rev(df_wide$colname)
 
+# Add column with information on number of tags
+size_of_tags = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/test.csv") %>% select(., c(ent = X, across_domains = All.domains.combined)) %>% filter(!ent %in% c('ENTS', 'DOCS'))
+
+# Add size of domains as column in df_wide
+df_wide = df_wide %>%
+  mutate(n_docs = case_when(
+    colname == "CARDINAL" ~ size_of_tags[size_of_tags$ent == "CARDINAL", "across_domains"],
+    colname == "DATE" ~ size_of_tags[size_of_tags$ent == "DATE", "across_domains"],
+    colname == "EVENT" ~ size_of_tags[size_of_tags$ent == "EVENT", "across_domains"],
+    colname == "FACILITY" ~ size_of_tags[size_of_tags$ent == "FACILITY", "across_domains"],
+    colname == "GPE" ~ size_of_tags[size_of_tags$ent == "GPE", "across_domains"],
+    colname == "LANGUAGE" ~ size_of_tags[size_of_tags$ent == "LANGUAGE", "across_domains"],
+    colname == "LAW" ~ size_of_tags[size_of_tags$ent == "LAW", "across_domains"],
+    colname == "MONEY" ~ size_of_tags[size_of_tags$ent == "MONEY", "across_domains"],
+    colname == "NORP" ~ size_of_tags[size_of_tags$ent == "NORP", "across_domains"],
+    colname == "ORDINAL" ~ size_of_tags[size_of_tags$ent == "ORDINAL", "across_domains"],
+    colname == "ORGANIZATION" ~ size_of_tags[size_of_tags$ent == "ORGANIZATION", "across_domains"],
+    colname == "PERCENT" ~ size_of_tags[size_of_tags$ent == "PERCENT", "across_domains"],
+    colname == "PERSON" ~ size_of_tags[size_of_tags$ent == "PERSON", "across_domains"],
+    colname == "PRODUCT" ~ size_of_tags[size_of_tags$ent == "PRODUCT", "across_domains"],
+    colname == "QUANTITY" ~ size_of_tags[size_of_tags$ent == "QUANTITY", "across_domains"],
+    colname == "TIME" ~ size_of_tags[size_of_tags$ent == "TIME", "across_domains"],
+    colname == "WORK OF ART" ~ size_of_tags[size_of_tags$ent == "WORK OF ART", "across_domains"],
+    ))
+df_wide$n_docs = as.integer(df_wide$n_docs)
+
 # Plot
 ggplot(df_wide, aes(y=value, x=colname)) +
   # Geom_bar
-  geom_point(size = 3.5,
-          aes(color=colname),
+  geom_point(#size = 5,
+          aes(size=n_docs),
+          color="darkgrey",
           stat="identity",
           show.legend = FALSE) +
 
-  geom_point(shape=1, size=3.5, colour="black")+
-
-  #scale_color_brewer() +#palette = "") +
-
-  coord_flip() + 
+  geom_point(shape=1, aes(size=n_docs), colour="black") +
   
+  scale_size(range = c(4, 8)) +
+
+  coord_flip() +
+
   guides(color = guide_legend(reverse=TRUE)) +
 
-  #theme_minimal() +
+  theme_bw() +
 
   # Set labs
-  labs(title = "F1-scores across tags",
-       subtitle = "F1-performance of the NER fine-grained models",
+  labs(# title = "F1-scores across tags",
+       # subtitle = "F1-performance of the NER fine-grained models",
        x = "Model",
        y = "F1-score",
-       color = 'Tag') +
-  
+       size = 'Number of tags') +
+
   facet_wrap(~rowname, ncol=3)
+# 
+# ggplot(df_wide, aes(y=value, x=colname, color=rowname)) +
+#   # Geom_bar
+#   geom_point(size = 4.5,
+#           aes(color=rowname),
+#           stat="identity",
+#           show.legend = TRUE) +
+# 
+#   geom_point(shape=1, size=4.5, colour="black")+
+# 
+#   #scale_color_brewer() +#palette = "") +
+# 
+#   coord_flip() + 
+#   
+#   guides(color = guide_legend(reverse=TRUE)) +
+# 
+#   #theme_minimal() +
+# 
+#   # Set labs
+#   labs(title = "F1-scores across tags",
+#        # subtitle = "F1-performance of the NER fine-grained models",
+#        x = "Model",
+#        y = "F1-score",
+#        color = 'Model')
+#   
+# facet_wrap(~rowname, ncol=3)
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/tag.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/NER/tag.png", width = 3000, height = 1500, units = "px")
 ```
 
 # OTHER MODELS PERFORMANCE
@@ -433,35 +505,36 @@ df_wide <- df %>%
   gather(colname, value, -rowname)
 
 # Order by custom ordering:
-df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained", "saattrupdan/nbailab-base-ner-scandi", "da_dacy_large_trf",                   "da_dacy_medium_trf", "da_dacy_small_trf", "da_core_news_lg", "da_core_news_md", "da_core_news_sm"))
+df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained", "saattrupdan/nbailab-base-ner-scandi", "da_dacy_large_trf", "da_dacy_medium_trf", "da_dacy_small_trf", "da_core_news_lg", "da_core_news_md", "da_core_news_sm"))
 df_wide$rowname <- fct_rev(df_wide$rowname)
 
 # Plot
 ggplot(df_wide, aes(y=value, x=rowname)) +
   # Geom_bar
-  geom_point(size = 3.5,
+  geom_point(size = 5,
           aes(color=colname),
           stat="identity") +
 
-  geom_point(shape=1, size=3.5, colour="black")+
+  geom_point(shape=1, size=5, colour="black")+
 
   scale_color_brewer(palette = "Set2") +
+  
+  # geom_text(aes(label=ifelse(colname=="F1", round(value, 2), "")), vjust=-1.4, color="black", position = position_dodge(0.7)) +
 
   coord_flip() + 
   
-  # theme_minimal() +
+  theme_linedraw() +
 
   # Set labs
-  labs(title = "Performance",
-       subtitle = "F1, recall and precision scores of Danish SOTA models",
+  labs(# title = "Performance",
+       # subtitle = "F1, recall and precision scores of Danish SOTA models",
        x = "Model",
        y = "Score",
        color = 'Metric')
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/f1_recall_precision.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/f1_recall_precision.png", width = 3000, height = 1500, units = "px")
 ```
-
 GENERAL PERFORMANCE
 ```{r}
 # Load data
@@ -489,32 +562,34 @@ ggplot(df_wide, aes(color=rowname, y=value, x=rowname)) +
   # Geom_bar
   geom_point(#position = position_dodge(width = 0.7),
            #width=0.7,
-          size = 2.5,
+          size = 5,
           aes(color=rowname),
           stat="identity",
           show.legend = FALSE) + #,
            #colour="black") +
   
   # Add text with F1-scores
-  geom_text(aes(label=round(value, 2)), vjust=-.8, color="black", size=3.5) +
+  geom_text(aes(label=round(value, 2)), vjust=-1, color="black", size=3.5) +
   
   guides(color = guide_legend(reverse=TRUE)) +
   
-  geom_point(shape=1, size=2.5, colour="black")+
+  geom_point(shape=1, size=5, colour="black")+
 
   #scale_color_brewer(palette = "Set2") +
+  
+  theme_linedraw() +
 
   coord_flip() + 
 
   # Set labs
-  labs(title = "F1-scores on DANSK",
-       subtitle = "F1-performance of Danish SOTA models",
+  labs(# title = "F1-scores on DANSK",
+       # subtitle = "F1-performance of Danish SOTA models",
        x = "Model",
        y = "F1-score",
        color = 'Model')
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/general.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/general.png", width = 3000, height = 1500, units = "px")
 ```
 DOMAIN MODEL PERFORMANCE
 ```{r}
@@ -532,6 +607,22 @@ df_wide <- df %>%
   rownames_to_column() %>%
   gather(colname, value, -rowname)
 
+# Load data with size of domains
+size_of_domains = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/test.csv") %>% filter(. ,X == "DOCS") %>% select(. ,c(conversation = Conversation, dannet = Dannet, legal = Legal, news = News, social_media = Social.Media, web = Web, wiki_and_books = Wiki.and.Books))
+
+# Add size of domains as column in df_wide
+df_wide = df_wide %>%
+  mutate(score = case_when(
+    colname == "conversation" ~ size_of_domains[1,"conversation"],
+    colname == "dannet" ~ size_of_domains[1,"dannet"],
+    colname == "legal" ~ size_of_domains[1,"legal"],
+    colname == "news" ~ size_of_domains[1,"news"],
+    colname == "social_media" ~ size_of_domains[1,"social_media"],
+    colname == "web" ~ as.character(size_of_domains[1,"web"]),
+    colname == "wiki_and_books" ~ size_of_domains[1,"wiki_and_books"]
+    ))
+df_wide$n_docs = as.integer(df_wide$score)
+
 # Order by custom ordering:
 df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grained", "da_dacy_medium_ner_fine_grained", "da_dacy_small_ner_fine_grained", "saattrupdan/nbailab-base-ner-scandi", "da_dacy_large_trf", "da_dacy_medium_trf", "da_dacy_small_trf", "da_core_news_lg", "da_core_news_md","da_core_news_sm"))
 
@@ -543,26 +634,27 @@ ggplot(df_wide, aes(color=colname, y=value, x=rowname)) +
   # Geom_bar
   geom_point(#position = position_dodge(width = 0.7),
            #width=0.7,
-          size = 2.5,
-          aes(color=colname),
+          # size = 5,
+          aes(color=colname, size = n_docs),
           stat="identity") + #,
            #colour="black") +
     
-  geom_point(shape=1, size=2.5, colour="black") +
+  geom_point(shape=1, aes(size=n_docs), colour="black") +
 
   scale_color_brewer(palette = "Set2") +
 
   coord_flip() + 
-
+  theme_linedraw() +
   # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of Danish SOTA models",
+  labs(# title = "F1-scores across domains",
+       # subtitle = "F1-performance of Danish SOTA models",
        x = "Model",
        y = "F1-score",
-       color= 'Domain')
+       color= 'Domain',
+       size = "Number of docs")
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/domain.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/domain.png", width = 3000, height = 1500, units = "px")
 ```
 TAG MODEL PERFORMANCE
 ```{r}
@@ -588,32 +680,31 @@ ggplot(df_wide, aes(color=colname, y=value, x=rowname)) +
   # Geom_bar
   geom_point(#position = position_dodge(width = .8),
            #width=.8,
-          size=2.5,
+          size=5,
            stat="identity") +#,
            # colour="black") +
   
-  geom_point(shape=1, size=2.5, colour="black")+
+  geom_point(shape=1, size=5, colour="black")+
   
   scale_color_brewer(palette = "Set2") +  
   
   coord_flip() +
   
-  #theme_minimal() +
+  theme_linedraw() +
   
   # Set labs
-  labs(title = "F1-scores across tags",
-       subtitle = "F1-performance of Danish SOTA models",
+  labs(# title = "F1-scores across tags",
+       # subtitle = "F1-performance of Danish SOTA models",
        x = "Model", 
        y = "F1-score",
        color = 'Tag')
 
 # Save plot
-ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/tag.png")
+ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/tag.png", width = 3000, height = 1500, units = "px")
 ```
 
-
 # CSV's for TABLES (see docs for how to structure):
-Kappa
+Kappa initial
 ```{r}
 # Avg kappa per annotator initially. On token level and on annotated token level
 non_annotated <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_initial_interrater/kappa_also_non_annotated.csv")
@@ -630,7 +721,24 @@ rownames(kappa) <- rownames
 
 write.csv(kappa, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK_initial/kappa.csv")
 ```
+Kappa DANSK
+```{r}
+# Avg kappa per annotator at the end On token level and on annotated token level
+non_annotated <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_final_interrater/kappa_also_non_annotated.csv")[-1]
+annotated <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_final_interrater/kappa_annotated.csv")[-1]
+cols = c("Annotator 1", "Annotator 3", "Annotator 4", "Annotator 5", "Annotator 6", "Annotator 7", "Annotator 8", "Annotator 9", "gold", "rater_avg")
+colnames(non_annotated) <- cols
+rownames(non_annotated) <- cols[-10]
+colnames(annotated) <- cols
+rownames(annotated) <- cols[-10]
 
+non_annotated = non_annotated %>% select("Avg. Cohen's Kappa annotated tokens"="rater_avg")
+annotated = annotated %>% select("Avg. Cohen's Kappa tokens"="rater_avg")
+
+kappa = cbind(non_annotated, annotated)
+
+write.csv(kappa, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/kappa.csv")
+```
 Doc overlap
 ```{r}
 df <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_initial_interrater/doc_overlap.csv")
@@ -646,7 +754,6 @@ colnames(df) <- colnames
 
 write.csv(df, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK_initial/doc_overlap.csv")
 ```
-
 Tag counts
 ```{r}
 # Already there from the "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/src/inter_annotators_matrix.ipynb"
@@ -654,17 +761,99 @@ Tag counts
 
 DANSK
 - Overall
-- Full, train, dev, test (including domain + tag distribution)
 ```{r}
 # Overall has be made manually; located in "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/overall.tgn")
+```
+- Overall, including Source
+```{r}
+# Get information
+domains = colnames(read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/full/domain_desc_stats_wide.csv"))[-1]
+sources = colnames(read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/full/source_desc_stats_wide.csv"))[-1]
+n_docs_in_source_full <- t(read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/full/source_desc_stats_wide.csv")[1,])[-1]
+n_docs_in_source_train <- t(read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/train/source_desc_stats_wide.csv")[1,])[-1]
+n_docs_in_source_dev <- t(read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/dev/source_desc_stats_wide.csv")[1,])[-1]
+n_docs_in_source_test <- t(read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/test/source_desc_stats_wide.csv")[1,])[-1]
 
+# Create nested list
+nested_list = list(Source=sources,
+                      Full=n_docs_in_source_full,
+                      Train=n_docs_in_source_train,
+                      Dev=n_docs_in_source_dev,
+                      Test=n_docs_in_source_test)
+
+
+# Convert nested list to the dataframe by columns
+df <- as.data.frame(do.call(cbind, nested_list))
+df <- df %>%
+  mutate(Domain = case_when(
+    endsWith(Source, 'retsinformationdk') ~'Legal',
+    endsWith(Source, 'skat') ~'Legal',
+    endsWith(Source, 'retspraksis') ~'Legal',
+    endsWith(Source, 'hest') ~'Social Media',
+    endsWith(Source, 'cc') ~'Web',
+    endsWith(Source, 'adl') ~'Wiki & Books',
+    endsWith(Source, 'botxt') ~'Other',
+    endsWith(Source, 'danavis') ~'News',
+    endsWith(Source, 'dannet') ~'Dannet',
+    endsWith(Source, 'depbank') ~'Other',
+    endsWith(Source, 'ep') ~'Conversation',
+    endsWith(Source, 'ft') ~'Conversation',
+    endsWith(Source, 'gutenberg') ~'Wiki & Books',
+    endsWith(Source, 'jvj') ~'Wiki & Books',
+    endsWith(Source, 'naat') ~'Conversation',
+    endsWith(Source, 'opensub') ~'Conversation',
+    endsWith(Source, 'relig') ~'Wiki & Books',
+    endsWith(Source, 'spont') ~'Conversation',
+    endsWith(Source, 'synne') ~'Other',
+    endsWith(Source, 'tv2r') ~'News',
+    endsWith(Source, 'wiki') ~'Wiki & Books',
+    endsWith(Source, 'wikibooks') ~'Wiki & Books',
+    endsWith(Source, 'wikisource') ~'Wiki & Books',
+    endsWith(Source, 'twfv19') ~'Social Media',
+    ))
+
+# Have domain as first column
+df <- df %>%
+  select(Domain, everything())
+
+# Order by domain
+df <- df[order(df$Domain),]
+
+# Save as csv
+write.csv(df, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/general_sources.csv")
+```
+- Full distributions (tag distribution within domain and source)
+```{r}
 # Full
 full = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/full/domain_desc_stats_wide.csv")
 full = full[,order(colnames(full))]
 new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books", "X")
 colnames(full) = new_col_names
 full <- full[, c(9, 1, 2, 3, 4, 5, 6, 7, 8)]
-write.csv(full, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/full.csv")
+full[full == "N/A"] <- NA
+full[is.na(full)] <- 0
+write.csv(full, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/full_domain.csv")
+
+full = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/full/source_desc_stats_wide.csv")
+full = full[,order(colnames(full))]
+full[full == "N/A"] <- NA
+full[is.na(full)] <- 0
+columnn = full["X"]
+full = full %>% select(!"X") %>%  mutate_if(is.character, as.numeric)
+full = cbind(columnn,full)
+full2 <- full[,-1]
+rownames(full2) <- full[,1]
+full = full2
+full["Across all sources"] = rowSums(full)
+full <- full %>%
+  select("Across all sources", everything())
+# new_row = c('Full source name','Archive for Danish Literature', 'Common Crawl', 'Danish daily newspapers', 'DanNet (Danish WordNet)', 'European Parliament', 'Folketinget (Danish Parliament)', 'Hestenettet (Danish debate forum)', 'NAAT', 'Open Subtitles', 'retsinformation.dk (Danish legal information)', 'retspraksis (Danish legal information)', 'Skat (Danish tax authority)', 'Spontaneous speech', 'TV 2 Radio (Danish news)', 'Wikipedia', 'Wikibooks', 'Wikisource')
+# full = rbind(new_row, full)
+write.csv(full, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/full_source.csv")
+
+```
+- Train distributions (tag distribution within domain and source)
+```{r}
 
 # Train
 train = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/train/domain_desc_stats_wide.csv")
@@ -672,7 +861,30 @@ train = train[,order(colnames(train))]
 new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books", "X")
 colnames(train) = new_col_names
 train <- train[, c(9, 1, 2, 3, 4, 5, 6, 7, 8)]
-write.csv(train, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/train.csv")
+train[train == "N/A"] <- NA
+train[is.na(train)] <- 0
+write.csv(train, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/train_domain.csv")
+
+train = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/train/source_desc_stats_wide.csv")
+train = train[,order(colnames(train))]
+train[train == "N/A"] <- NA
+train[is.na(train)] <- 0
+columnn = train["X"]
+train = train %>% select(!"X") %>%  mutate_if(is.character, as.numeric)
+train = cbind(columnn,train)
+train2 <- train[,-1]
+rownames(train2) <- train[,1]
+train = train2
+train["Across all sources"] = rowSums(train)
+train <- train %>%
+  select("Across all sources", everything())
+# new_row = c('train source name','Archive for Danish Literature', 'Common Crawl', 'Danish daily newspapers', 'DanNet (Danish WordNet)', 'European Parliament', 'Folketinget (Danish Parliament)', 'Hestenettet (Danish debate forum)', 'NAAT', 'Open Subtitles', 'retsinformation.dk (Danish legal information)', 'retspraksis (Danish legal information)', 'Skat (Danish tax authority)', 'Spontaneous speech', 'TV 2 Radio (Danish news)', 'Wikipedia', 'Wikibooks', 'Wikisource')
+# train = rbind(new_row, train)
+write.csv(train, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/train_source.csv")
+
+```
+- Dev distributions (tag distribution within domain and source)
+```{r}
 
 # Dev
 dev = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/dev/domain_desc_stats_wide.csv")
@@ -680,17 +892,59 @@ dev = dev[,order(colnames(dev))]
 new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books", "X")
 colnames(dev) = new_col_names
 dev <- dev[, c(9, 1, 2, 3, 4, 5, 6, 7, 8)]
-write.csv(dev, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/dev.csv")
+dev[dev == "N/A"] <- NA
+dev[is.na(dev)] <- 0
+write.csv(dev, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/dev_domain.csv")
+
+dev = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/dev/source_desc_stats_wide.csv")
+dev = dev[,order(colnames(dev))]
+dev[dev == "N/A"] <- NA
+dev[is.na(dev)] <- 0
+columnn = dev["X"]
+dev = dev %>% select(!"X") %>%  mutate_if(is.character, as.numeric)
+dev = cbind(columnn,dev)
+dev2 <- dev[,-1]
+rownames(dev2) <- dev[,1]
+dev = dev2
+dev["Across all sources"] = rowSums(dev)
+dev <- dev %>%
+  select("Across all sources", everything())
+# new_row = c('dev source name','Archive for Danish Literature', 'Common Crawl', 'Danish daily newspapers', 'DanNet (Danish WordNet)', 'European Parliament', 'Folketinget (Danish Parliament)', 'Hestenettet (Danish debate forum)', 'NAAT', 'Open Subtitles', 'retsinformation.dk (Danish legal information)', 'retspraksis (Danish legal information)', 'Skat (Danish tax authority)', 'Spontaneous speech', 'TV 2 Radio (Danish news)', 'Wikipedia', 'Wikibooks', 'Wikisource')
+# dev = rbind(new_row, dev)
+write.csv(dev, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/dev_source.csv")
+
+```
+- Test distributions (tag distribution within domain and source)
+```{r}
 
 # Test
 test = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/test/domain_desc_stats_wide.csv")
-test = test[,order(colnames(dev))]
+test = test[,order(colnames(test))]
 new_col_names = c("All domains combined", "Conversation", "Dannet", "Legal", "News", "Social Media", "Web", "Wiki and Books", "X")
 colnames(test) = new_col_names
 test <- test[, c(9, 1, 2, 3, 4, 5, 6, 7, 8)]
-write.csv(test, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/test.csv")
+test[test == "N/A"] <- NA
+test[is.na(test)] <- 0
+write.csv(test, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/test_domain.csv")
 
+test = read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_descriptive/test/source_desc_stats_wide.csv")
+test = test[,order(colnames(test))]
+test[test == "N/A"] <- NA
+test[is.na(test)] <- 0
+columnn = test["X"]
+test = test %>% select(!"X") %>%  mutate_if(is.character, as.numeric)
+test = cbind(columnn,test)
+test2 <- test[,-1]
+rownames(test2) <- test[,1]
+test = test2
+test["Across all sources"] = rowSums(test)
+test <- test %>%
+  select("Across all sources", everything())
+# new_row = c('test source name','Archive for Danish Literature', 'Common Crawl', 'Danish daily newspapers', 'DanNet (Danish WordNet)', 'European Parliament', 'Folketinget (Danish Parliament)', 'Hestenettet (Danish debate forum)', 'NAAT', 'Open Subtitles', 'retsinformation.dk (Danish legal information)', 'retspraksis (Danish legal information)', 'Skat (Danish tax authority)', 'Spontaneous speech', 'TV 2 Radio (Danish news)', 'Wikipedia', 'Wikibooks', 'Wikisource')
+# test = rbind(new_row, test)
+write.csv(test, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/test_source.csv")
 ```
+
 
 SOTA
 - Recall, Precision, F1-score
@@ -799,12 +1053,12 @@ ggplot(df_wide, aes(x = reorder(rowname, sort(as.numeric(rowname), decreasing=T)
   
   # Set theme
   theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
+        plot.# subtitle = element_text(hjust = 0.5),
         legend.position="right") +
   
   # Set labs
-  labs(title = "Cohen's Kappa all tokens",
-       subtitle = "Cohens Kappa scores between annotators, when including all tokens",
+  labs(# title = "Cohen's Kappa all tokens",
+       # subtitle = "Cohens Kappa scores between annotators, when including all tokens",
        x = "Annotator", 
        y = "Cohen's Kappa",
        fill='Annotator')
@@ -845,12 +1099,12 @@ ggplot(df_wide, aes(x = reorder(rowname, sort(as.numeric(rowname), decreasing=T)
   
   # Set theme
   theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
+        plot.# subtitle = element_text(hjust = 0.5),
         legend.position="right") +
   
   # Set labs
-  labs(title = "Cohen's Kappa all tokens",
-       subtitle = "Cohens Kappa scores between annotators, only including annotated tokens",
+  labs(# title = "Cohen's Kappa all tokens",
+       # subtitle = "Cohens Kappa scores between annotators, only including annotated tokens",
        x = "Annotator", 
        y = "Cohen's Kappa",
        fill='Annotator')
@@ -889,12 +1143,12 @@ ggplot(df_wide, aes(x = rowname, y = value, fill=rowname)) +
   
   # Set theme
   theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
+        plot.# subtitle = element_text(hjust = 0.5),
         legend.position="right") +
   
   # Set labs
-  labs(title = "Cohen's Kappa all tokens",
-       subtitle = "Cohens Kappa scores between annotators, only including annotated tokens",
+  labs(# title = "Cohen's Kappa all tokens",
+       # subtitle = "Cohens Kappa scores between annotators, only including annotated tokens",
        x = "Annotator", 
        y = "Cohen's Kappa",
        fill='Annotator')
@@ -937,16 +1191,16 @@ df_wide$rowname <- factor(df_wide$rowname, levels=c("da_dacy_large_ner_fine_grai
 #   scale_fill_brewer(palette = "Set2") +  
 #   
 #     # Add text with F1-scores
-#   geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=3.5, position = position_dodge(0.7)) +
+#   geom_text(aes(label=round(value, 2)), vjust=1.6, color="white", size=5, position = position_dodge(0.7)) +
 #   
 #   # Set theme
 #   theme(plot.title = element_text(hjust = 0.5), 
-#         plot.subtitle = element_text(hjust = 0.5),
+#         plot.# subtitle = element_text(hjust = 0.5),
 #         legend.position="right") +
 #   
 #   # Set labs
 #   labs(title = "F1-scores across domains",
-#        subtitle = "F1-performance of Danish SOTA models",
+#        # subtitle = "F1-performance of Danish SOTA models",
 #        x = "Model", 
 #        y = "F1-score",
 #        fill = 'Model') +
@@ -975,12 +1229,12 @@ ggplot(df_wide, aes(y=value, x=colname, color=colname)) +
   
   # Set theme
   # theme(plot.title = element_text(hjust = 0.5), 
-  #       plot.subtitle = element_text(hjust = 0.5),
+  #       plot.# subtitle = element_text(hjust = 0.5),
   #       legend.position="right") +
   # 
   # Set labs
-  labs(title = "F1-scores across domains",
-       subtitle = "F1-performance of Danish SOTA models",
+  labs(# title = "F1-scores across domains",
+       # subtitle = "F1-performance of Danish SOTA models",
        x = "",#"Domain", 
        y = "F1-score",
        fill= 'Domain') +
@@ -1023,7 +1277,7 @@ ggplot(df, aes(fill=rowname, y=value, x=rowname)) +
 
   # Set theme
   theme(plot.title = element_text(hjust = 0.5), 
-        plot.subtitle = element_text(hjust = 0.5),
+        plot.# subtitle = element_text(hjust = 0.5),
         legend.position="none") +
   
   coord_flip() +
@@ -1032,8 +1286,8 @@ ggplot(df, aes(fill=rowname, y=value, x=rowname)) +
   #scale_x_discrete(guide = guide_axis(n.dodge=2)) +
   
   # Set labs
-  labs(title = "F1-scores",
-       subtitle = "F1-performance of Danish SOTA models",
+  labs(# title = "F1-scores",
+       # subtitle = "F1-performance of Danish SOTA models",
        x = "Model", 
        y = "F1-score")
 
