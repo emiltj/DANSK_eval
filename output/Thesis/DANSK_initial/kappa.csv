@@ -1,4 +1,4 @@
-"","Avg. Cohen's Kappa annotated tokens","Avg. Cohen's Kappa tokens"
+"","Avg. Cohen's Kappa also non-annotated tokens","Avg. Cohen's Kappa only annotated tokens"
 "Annotator 1",0.77,0.6
 "Annotator 2",0.72,0.52
 "Annotator 3",0.71,0.51
