@@ -1,0 +1,55 @@
+Regex patterns:
+For matching with TIME spans, e.g. [16:30 - 17:30] (TIME)
+\d{1,2}:\d\d ?[-|\||\/] ?\d
+dag: \d{1,2}
+
+For matching with DATE spans, e.g. [1938 - 1992] (DATE)
+\d{2,4} ?[-|–] ?\d{2,4}
+
+For matching companies with A/S og ApS, e.g. [Hansens Skomager A/S] (ORGANIZATION)
+ApS
+A\/S
+
+For matching written numerals, e.g. "en"
+to | to$|^to| To | To$|^To| TO | TO$|^TO| tre | tre$|^tre| Tre | Tre$|^Tre| TRE | TRE$|^TRE| fire | fire$|^fire| Fire | Fire$|^Fire| FIRE | FIRE$|^FIRE| fem | fem$|^fem| Fem | Fem$|^Fem| FEM | FEM$|^FEM| seks | seks$|^seks| Seks | Seks$|^Seks| SEKS | SEKS$|^SYV| otte | otte$|^otte| Otte | Otte$|^Otte| OTTE | OTTE$|^OTTE| ni | ni$|^ni| Ni | Ni$|^Ni| NI | NI$|^NI| ti | ti$|^ti| Ti | Ti$|^Ti| TI | TI$|^TI
+
+For matching "Himlen" or "Himmelen" already annotated as LOCATION, e.g. "HIMLEN"
+[Hh][iI][mM][lL][Ee][Nn]|[Hh][iI][mM][mM][Ee][lL][Ee][Nn]
+
+For matching "Gud" already tagged as PERSON, e.g. "GUD"
+[Gg][Uu][Dd]
+
+For matching telephone numbers wrongly already tagged as CARDINAL, e.g. "20 40 44 30"
+\d{2} \d{2} \d{2} \d{2}
+\+\d{2} \d{2} ?\d{2} ?\d{2} ?\d{2}$
+\+\d{2} \d{2} ?\d{2} ?\d{2} ?\d{2}$
+ \d{4} ?\d{4}$
+^\d{4} ?\d{4}$
+
+For matching websites already wrongly tagged as ORGANIZATION
+.dk$|.com$
+
+For matching Hotels and Resorts already wrongly tagged as ORGANIZATION
+.*[h|H]otel.*|.*[R|r]esort.*
+
+For matching numbers including / or :, already wrongly tagged as CARDINAL
+\/
+\/
+ 
+-
+
+For matching rights already wrongly tagged as LAW
+[C|c]opyright
+[®|©]
+[f|F]ortrydelsesret
+[o|O]phavsret$
+enneskeret
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,27 @@
+Domain,Source,Tokens prior to filtering,Filter
+ Legal, Retsinformation,10000,None
+ Legal, Skat.dk,10000,None
+ Legal, H-Sø,10000,None
+ Social Media, Hestenettet,10000,None
+ Social Media, General Discussions,10000,None
+ Social Media, Parliament Elections,10000,None
+ Conversation, OpenSubtitles,6000,None
+ Conversation, Folketinget,6000,None
+ Conversation, Europarl,6000,None
+ Conversation, Spontaneous speech,6000,None
+ Conversation, NAAT,6000,Partial
+ Web, Common Crawl,30000,None
+ Wiki & Books, Wikipedia,4000,None
+ Wiki & Books, Danish Literature,4000,Partial
+ Wiki & Books, Gutenberg,4000,Partial
+ Wiki & Books, WikiBooks,4000,None
+ Wiki & Books, WikiSource,4000,Partial
+ Wiki & Books, Johannes V. Jensen,4000,Removed
+ Wiki & Books, Religious texts,4000,Partial
+ News,TV2R,15000,None
+ News, DanAvis,15000,None
+ Other, Dasem,6000,None
+ Other,data3,6000,None
+ Other, Botxt,6000,None
+ Other, DDT,100000,None
+ Other, Sønderjysk,6000,None

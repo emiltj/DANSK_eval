@@ -776,6 +776,10 @@ ggsave("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/SOTA/ta
 ```
 
 # CSV's for TABLES (see docs for how to structure):
+Text sampling
+```{r}
+# Created manually from text by Kenneth as "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK_initial/sampling.csv"
+```
 Kappa initial
 ```{r}
 # Avg kappa per annotator initially. On token level and on annotated token level
@@ -791,7 +795,7 @@ rownames <- c("Annotator 1", "Annotator 2", "Annotator 3", "Annotator 4", "Annot
 
 rownames(kappa) <- rownames
 
-write.csv(kappa, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK_initial/kappa.csv")
+write.csv(kappa, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK_initial/kappa_initial.csv")
 ```
 Kappa in the end (Interrater reliability with streamlined and DANSK)
 ```{r}
@@ -807,11 +811,10 @@ kappa = cbind(non_annotated, annotated)
 rownames <- c("Annotator 1", "Annotator 3", "Annotator 4", "Annotator 5", "Annotator 6", "Annotator 7", "Annotator 8", "Annotator 9", "DANSK")
 
 rownames(kappa) <- rownames
-kappa
-write.csv(kappa, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/kappa.csv")
-```
 
-Kappa DANSK
+write.csv(kappa, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/kappa_streamlined_dansk.csv")
+```
+Kappa DANSK and initial
 ```{r}
 # Avg kappa per annotator at the end On token level and on annotated token level
 non_annotated <- read.csv("/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/DANSK_final_interrater/kappa_also_non_annotated.csv")[-1]
@@ -827,7 +830,7 @@ annotated = annotated %>% select("Avg. Cohen's Kappa tokens"="rater_avg")
 
 kappa = cbind(non_annotated, annotated)
 
-write.csv(kappa, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/kappa.csv")
+write.csv(kappa, "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/output/Thesis/DANSK/kappa_initial_dansk.csv")
 ```
 Doc overlap
 ```{r}
@@ -848,6 +851,7 @@ Tag counts
 ```{r}
 # Already there from the "/Users/emiltrencknerjessen/Desktop/priv/DANSK_eval/src/inter_annotators_matrix.ipynb"
 ```
+
 
 DANSK
 - Overall
